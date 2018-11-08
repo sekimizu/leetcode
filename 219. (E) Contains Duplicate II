@@ -1,0 +1,49 @@
+class Solution {
+public:
+    bool containsNearbyDuplicate(vector<int>& nums, int k) {
+        vector<pair<int,int>> s;
+    
+        for(int i = 0; i < nums.size(); i++) {
+            s.push_back(make_pair(nums[i], i));
+            //s[nums[i]] = i;
+        }
+        
+        sort(s.begin(), s.end());
+        int recordNum = INT_MAX, recordIdx = INT_MAX;
+        for(auto x : s) {
+            //cout << " v " << x.first << " index " << x.second;
+            if(x.first == recordNum) {
+                //cout << " ABS = " << abs(x.second - recordIdx) << endl;
+                if(abs(x.second - recordIdx) <= k) {
+                    return true;
+                } else {
+                    recordIdx = x.second;
+                }
+            } else {
+                recordNum = x.first;
+                recordIdx = x.second;
+            }
+        }
+        //cout << endl;
+        return false;
+    }
+};
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+class Solution {
+public:
+    bool containsNearbyDuplicate(vector<int>& nums, int k) {
+        unordered_set<int> s;
+        
+        if(nums.size() == 0) return false;
+        if(k >= nums.size()) k = nums.size()-1;
+        
+        for(int i = 0; i < nums.size(); i++) {
+            if(i > k) s.erase(nums[i - k - 1]);
+            if(s.find(nums[i]) != s.end()) return true;
+            s.insert(nums[i]);
+        }
+        return false;
+    }
+};

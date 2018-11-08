@@ -1,0 +1,104 @@
+class NumArray {
+    vector<int> res;
+
+public:
+    NumArray(vector<int> nums) {
+        int sum = 0;
+        for(int i = 0; i < nums.size(); i++) {
+            sum += nums[i];
+            res.push_back(sum);
+        }
+    }
+    
+    int sumRange(int i, int j) {
+        if(i > j) swap(i, j);
+        return res[j] - res[i-1];
+    }
+};
+
+/**
+ * Your NumArray object will be instantiated and called as such:
+ * NumArray obj = new NumArray(nums);
+ * int param_1 = obj.sumRange(i,j);
+ */
+
+########### Memory Limit Exceeded 
+
+class NumArray {
+    //transfor int map[][] into vector<int> by calculate [i][j] to [i+j*(n-1)]
+    //int map[n][n];
+    vector<int> res;
+    int n = -1;
+    
+public:
+    NumArray(vector<int> nums) {
+        n = nums.size();
+        for(int i = 0; i < n; i++) {
+            for(int z = 0; z < i; z++) {
+                //add dummy into res
+                res.push_back(0);
+            }
+            res.push_back(nums[i]);
+            for(int j = i + 1; j < n; j++) {
+                int sum = res[i * n + j - 1] + nums[j];
+                res.push_back(sum);
+            }
+        }
+    }
+    
+    int sumRange(int i, int j) {
+        if(i > j) swap(i, j);
+        return res[i * n + j];
+    }
+};
+
+/**
+ * Your NumArray object will be instantiated and called as such:
+ * NumArray obj = new NumArray(nums);
+ * int param_1 = obj.sumRange(i,j);
+ */
+
+########### Time Limit Exceeded
+
+class NumArray {
+    //transfor int map[][] into vector<int> by calculate [i][j] to [i+j*(n-1)]
+    //int map[n][n];
+    vector<int> res;
+    int n = -1;
+    
+public:
+    int helper(int cnt) {
+        int s = 0;
+        while(cnt > 0) {
+            s = s + cnt;
+            cnt--;
+        }
+        return s;
+    }
+    
+    NumArray(vector<int> nums) {
+        n = nums.size();
+        for(int i = 0; i < n; i++) {
+            
+            res.push_back(nums[i]);
+            for(int j = i + 1; j < n; j++) {
+                int sum = res[i * n + j - helper(i) - 1] + nums[j];
+                res.push_back(sum);
+            }
+        }
+
+        cout << endl;
+    }
+    
+    int sumRange(int i, int j) {
+        if(i > j) swap(i, j);
+        return res[i * n + j - helper(i)];
+    }
+};
+
+/**
+ * Your NumArray object will be instantiated and called as such:
+ * NumArray obj = new NumArray(nums);
+ * int param_1 = obj.sumRange(i,j);
+ */
+
