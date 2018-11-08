@@ -1,0 +1,70 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+    void travel(vector<string>& res, TreeNode* root, string s) {
+        if(!root->left && !root->right) {
+            res.push_back(s);
+            return;
+        }
+        if(root->left) {
+            travel(res, root->left, s + "->" + to_string(root->left->val));
+        }
+        if(root->right) {
+            travel(res, root->right, s + "->" + to_string(root->right->val));
+        }
+        return;
+    }
+public:
+    vector<string> binaryTreePaths(TreeNode* root) {
+        vector<string> res;
+        if(!root) return res;
+        //res.push_back(root->val);
+        travel(res, root, to_string(root->val));
+        return res;
+    }
+};
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+/*
+follow up: non-recursive version
+*/
+class Solution {
+public:
+    vector<string> binaryTreePaths(TreeNode* root) {
+        vector<string> res;
+        if (root == NULL) return res;
+        stack<TreeNode*> s;
+        stack<string> pathStack;
+        s.push(root);
+        pathStack.push(to_string(root->val));
+        
+        while (!s.empty()) {
+            TreeNode * curNode = s.top(); s.pop();
+            string tmpPath = pathStack.top(); pathStack.pop();
+            
+            if (curNode->left == NULL && curNode->right == NULL) {
+                res.push_back(tmpPath); continue;
+            }
+            
+            if (curNode->left != NULL) {
+                s.push(curNode->left);
+                pathStack.push(tmpPath + "->" + to_string(curNode->left->val));
+            }
+            
+            if (curNode->right != NULL) {
+                s.push(curNode->right);
+                pathStack.push(tmpPath + "->" + to_string(curNode->right->val));
+            }
+        }
+        
+        return res;
+    }
+};

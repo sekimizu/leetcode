@@ -1,0 +1,55 @@
+######## Time Limit Exceeded
+
+class Solution {
+public:
+    int countPrimes(int n) {
+        vector<int> prime_num;
+    
+        int i = 2, j;
+        bool not_prime;
+        
+        while(i < n) {
+            j = 0;
+            not_prime = false;
+            while(!not_prime && j < prime_num.size()) {
+                if( i % prime_num[j] == 0) {
+                    //[not prime]
+                    not_prime = true;
+                    break;
+                }
+                j++;
+            }
+            if(!not_prime) {
+                //cout << " Save " << i << endl;
+                prime_num.push_back(i);   
+            }
+            i++;
+        }
+        return prime_num.size();
+    }
+};
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+class Solution {
+    //[Sieve of Erantothoses]
+public:
+    int countPrimes(int n) {
+        vector<bool> check(n,true); 
+        int count = 0;
+        
+        //[mark 0 and 1 not prime]
+        check[0] = false;
+        check[1] = false;
+        
+        for(int i = 2; i < sqrt(n); i++) {
+            if(!check[i]) continue;
+            int j = pow(i, 2);
+            while(j <= n) {
+                check[j] = false;
+                j += i;
+            }
+        }
+        for(auto x : check) count += x ? 1 : 0;
+        return count;
+    }
+};

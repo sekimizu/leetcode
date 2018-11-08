@@ -1,0 +1,25 @@
+class Solution {
+public:
+    bool isPowerOfTwo(int n) {
+        if(n == 0) return false;
+        long long cnt = 1;
+        while(cnt < n) {
+            cnt *= 2;
+        }
+        return cnt == n;
+    }
+};
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+class Solution {
+public:
+    bool isPowerOfTwo(int n) {
+        if(n <= 0) return false;
+        // 8 -> 1000, 7 = 0111, & should equal zero
+        n &= (n - 1);
+        return 0 == n;
+    }
+};
+
+

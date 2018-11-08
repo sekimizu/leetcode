@@ -1,0 +1,63 @@
+class Solution {
+public:
+    bool wordPattern(string pattern, string str) {
+        unordered_map<char, string> s;
+        unordered_map<char, string>::iterator it;
+        vector<string> strs;
+        size_t pos;
+
+        while ((pos = str.find(" ")) != std::string::npos) {
+            string token = str.substr(0, pos);
+            strs.push_back(token);
+            str.erase(0, pos + 1);
+        }
+        strs.push_back(str);
+
+        if(pattern.size() != strs.size()) return false;
+        for(int i = 0; i < pattern.size(); i++) {
+            for(auto x : s) {
+                if(x.first == pattern[i] && x.second != strs[i]) return false;
+                if(x.first != pattern[i] && x.second == strs[i]) return false;
+            }
+            s.insert(make_pair(pattern[i], strs[i]));
+        }
+        return true;
+    }
+};
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+class Solution {
+public:
+    bool wordPattern(string pattern, string str) {
+        unordered_map<char, string> s;
+        vector<string> strs;
+        istringstream in(str);
+        
+        for(string word; in >> word;) {
+            strs.push_back(word);
+        }
+        if(pattern.size() != strs.size()) return false;
+        for(int i = 0; i < pattern.size(); i++) {
+            for(auto x : s) {
+                if(x.first == pattern[i] && x.second != strs[i]) return false;
+                if(x.first != pattern[i] && x.second == strs[i]) return false;
+            }
+            s.insert(make_pair(pattern[i], strs[i]));
+        }
+        return true;
+    }
+};
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+	map<char, int> p2i;
+    map<string, int> w2i;
+    istringstream in(str);
+    int i = 0, n = pattern.size();
+    for (string word; in >> word; ++i) {
+        if (i == n || p2i[pattern[i]] != w2i[word])
+            return false;
+        p2i[pattern[i]] = w2i[word] = i + 1;
+    }
+    return i == n;

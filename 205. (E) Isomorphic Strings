@@ -1,0 +1,24 @@
+class Solution {
+public:
+    bool isIsomorphic(string s, string t) {
+        unordered_map<char, char> mapping;
+
+        if(s.size() == 0 && t.size() == 0) return true;
+        if(s.size() != t.size()) return false;
+        
+        for(int i = 0; i < s.size(); i++) {
+            //[check index had been shown or not]
+            for(auto x : mapping) {
+                if(x.first == s[i] && x.second != t[i]) {
+                    return false;
+                }
+                if(x.first != s[i] && x.second == t[i]) {
+                    return false;
+                }
+            }
+            //cout << "insert " << s[i] << " , " << t[i] << endl;
+            mapping.insert(make_pair(s[i], t[i]));
+        }
+        return true;
+    }
+};

@@ -1,0 +1,24 @@
+class Solution {
+    //[Flyod's Cycle Finding/Detecting Algorithm]
+    int digitialSum(int n) {
+        int sum = 0;
+        while(n) {
+            sum += (n % 10) * (n % 10);
+            n /= 10;
+        }
+        return sum;
+    }
+public:
+    bool isHappy(int n) {
+        int slow, fast;
+        slow = fast = n;
+        
+        do {
+            slow = digitialSum(slow);
+            fast = digitialSum(fast);
+            fast = digitialSum(fast);
+        } while(slow != fast);
+        if(slow == 1) return true;
+        return false;
+    }
+};

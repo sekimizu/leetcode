@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int addDigits(int num) {
+        if(num < 10) return num;
+        int sum = 0;
+        do {
+            sum += num % 10;
+            num /= 10;
+        } while(num > 0);
+        
+        //cout << " SUM = " << sum << endl;
+        return addDigits(sum);
+    }
+};
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+class Solution {
+    //[Digital root: https://en.wikipedia.org/wiki/Digital_root#Congruence_formula]
+public:
+    int addDigits(int num) {
+        return (1 + (num-1) % 9);
+    }
+};
+
+
