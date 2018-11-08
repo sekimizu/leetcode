@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) {
+        #if 0
+        auto x = unique(nums.begin(), nums.end());
+        //cout <<"LEN" << distance(nums.begin(), x);
+        return distance(nums.begin(), x);
+        #endif
+        int count = 0;
+        int n = nums.size();
+        for(int i = 1; i < n; i++) {
+            if(nums[i] == nums[i-1]) count++;
+            else nums[i-count] = nums[i];
+        }
+        return n-count;
+    }
+};
