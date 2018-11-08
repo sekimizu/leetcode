@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int findNthDigit(int n) {
+        if(n < 10) return n;
+        long digitNum = 9;
+        int digitIdx = 1;
+        while(n > digitIdx * digitNum) {
+            n -= digitIdx * digitNum;
+            digitIdx++;
+            digitNum *= 10;
+        }
+
+        int num_count = (n - 1) / digitIdx;
+        int num_digit = (n - 1) % digitIdx;
+        //cout << " num_count = " << num_count << endl;
+        //cout << " num_digit = " << num_digit << endl;
+        int num = pow(10, digitIdx-1) + num_count;
+        //cout << "original number = " << num << endl;
+        string ans = to_string(num);
+        //cout << " ans = " << ans << endl;
+        
+        return ans.at(num_digit)-'0';
+    }
+};

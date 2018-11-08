@@ -1,0 +1,65 @@
+class Solution {
+    int TABLE_SIZE = 10;
+    //vector<string> res;
+    set<string> sp;
+    
+public:
+    void printTable(vector<int> table) {
+        int h = 0, m = 0;
+
+        for(int i = 9; i >= 4; i--) {
+            m = m * 2 + table[i];
+        }
+        for(int j = 3; j >= 0; j--) {
+            h = h * 2 + table[j];
+        }
+        //leave Hour > 11 and Minute > 59
+        if(h >= 12 || m >= 60) return;
+        
+        //cout << "h:m = " << h << m << endl;
+        string time_str = (h == 0 ? "0" : to_string(h)) + ":" + (m < 10 ? "0" : "") + to_string(m);
+        //cout << " time = " << time_str << endl;
+        //res.push_back(time_str);
+        sp.insert(time_str);
+        
+        #if 0
+        for(int i = 0; i < TABLE_SIZE; i++) {
+            cout << " " << table[i];
+        }
+        cout << endl;
+        #endif
+    }
+    
+    void fillInTable(vector<int> table, int cnt) {
+        for(int i = 0; i < TABLE_SIZE; i++) {
+            if(table[i] != 0) continue;
+            //change value
+            //table[i] = cnt;
+            table[i] = 1;
+            if(cnt == 1) {
+                printTable(table);
+            } else {
+                fillInTable(table, cnt-1);
+            }
+            //reset
+            table[i] = 0;
+        }
+    }
+    
+    vector<string> readBinaryWatch(int num) {
+        if(num == 0) return { "0:00" };
+        vector<int> table(TABLE_SIZE, 0);
+        vector<string> res;
+        fillInTable(table, num);
+        
+        //cout << " size = " << sp.size();
+        for(auto x : sp) {
+            res.push_back(x);
+        }
+        return res;
+    }
+};
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+

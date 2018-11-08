@@ -1,0 +1,9 @@
+class Solution {
+public:
+    int countSegments(string s) {
+        int cnt = 0;
+        istringstream in(s);
+        for(string word; in >> word;) cnt++;
+        return cnt;
+    }
+};

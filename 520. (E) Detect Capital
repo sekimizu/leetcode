@@ -1,0 +1,21 @@
+class Solution {
+public:
+    bool detectCapitalUse(string word) {
+        if(word.size() == 0) return false;
+        bool uppercase = true;
+        if(word[0] < 'A' || word[0] > 'Z') uppercase = false;
+        
+        if(uppercase && word.size() >= 2) {
+            uppercase = (word[1] > 'A' && word[1] < 'Z');
+        }
+        for(int i = 1; i < word.size(); i++) {
+            if(word[i] < (uppercase ? 'A' : 'a') || word[i] > (uppercase ? 'Z' : 'z')) return false;
+        }
+        return true;
+    }
+};
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+

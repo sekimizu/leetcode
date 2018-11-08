@@ -1,0 +1,45 @@
+@@@@@@@@@@@ Time Limit Exceeded
+
+class Solution {
+public:
+    double findMaxAverage(vector<int>& nums, int k) {
+        int n = nums.size();
+        int max_val = INT_MIN;
+        
+        for(int i = 0; i <= n - k; i++) {
+            int cnt = 0;
+            for(int j = 0; j < k; j++) {
+                cnt += nums[i + j];
+            }
+            max_val = max(max_val, cnt);
+        }
+        //cout << " MAX = " << max_val << endl;
+        return (double)max_val / k;
+    }
+};
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+class Solution {
+public:
+    double findMaxAverage(vector<int>& nums, int k) {
+        int sum = 0;
+        int max_val = INT_MIN;
+        
+        for(int i = 0; i < nums.size(); i++) {
+            if(i < k) {
+                sum += nums[i];
+            } else {
+                max_val = max(sum, max_val);
+                //remove previous left
+                sum -= nums[i - k];
+                //add current right
+                sum += nums[i];
+            }
+        }
+        max_val = max(sum, max_val);
+        
+        //cout << " MAX = " << max_val << endl;
+        return (double)max_val / k;
+    }
+};

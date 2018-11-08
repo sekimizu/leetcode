@@ -1,0 +1,46 @@
+class Solution {
+public:
+    vector<int> findErrorNums(vector<int>& nums) {
+        int n = nums.size();
+        int dup = -1, mis = -1;
+        vector<int> s(n + 1, 0);
+        for(int i = 0; i < n; i++) {
+            //cout << nums[i] << endl;
+            s[nums[i]]++;
+        }
+        for(int j = 1; j < n + 1 && (dup == -1 || mis == -1); j++) {
+            //cout << " s = " << s[j] << endl;
+            if(s[j] == 0) mis = j;
+            if(s[j] == 2) dup = j;
+        }
+        return { dup, mis };
+    }
+};
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+https://leetcode.com/problems/set-mismatch/discuss/113999/C++-True-O(1)-space-O(n)-time-(No-input-modifying)-with-clear-explanation
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+class Solution {
+public:
+    vector<int> findErrorNums(vector<int>& nums) {
+        int p = 0, dup = 0, mis = 0;
+        
+        for(int i = 0; i < nums.size(); i++) {
+            p ^= (i + 1) ^ nums[i];
+        }
+        sort(nums.begin(), nums.end());
+        
+        for(int j = 0; j < nums.size() - 1; j++) {
+            //dup
+            if(nums[j] == nums[j + 1]) mis = p ^ nums[j];
+        }
+        dup = p ^ mis;
+        
+        return { dup, mis };
+    }
+};
+
+
