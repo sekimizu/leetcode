@@ -1,0 +1,15 @@
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        for(int index = 0; index < nums.size(); index++) {
+            int targetToFind = target - nums.at(index);
+            
+            std::vector<int>::iterator it = find(nums.begin(), nums.end(), targetToFind);
+            if(it != nums.end() && index != distance(nums.begin(), it)) {
+                //[match found]
+                return {index, distance(nums.begin(), it)};
+            }
+        }
+        return {};
+    }
+};
