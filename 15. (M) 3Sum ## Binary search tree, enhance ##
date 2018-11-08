@@ -1,0 +1,49 @@
+class Solution {
+public:
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        vector<vector<int>>res;
+        sort(nums.begin(), nums.end());
+        if(nums.size() == 0) return res;
+        
+        for(int index = 0; index < nums.size()-1; index++) {
+            int front = index+1;
+            int back = nums.size()-1;
+            
+            while(front < back) {
+                int sum = nums[index] + nums[front] + nums[back];
+                if(sum == 0) {
+                    //[match found]
+                    vector<int>tmp;
+                    //cout<<"index=" << index << " front=" << front << " back=" << back << endl;
+                    //cout<<"value index=" << nums[index] << " front=" << nums[front] << " back=" << nums[back] << endl;
+                    tmp.push_back(nums[index]);
+                    tmp.push_back(nums[front]);
+                    tmp.push_back(nums[back]);
+                    /*
+                    if(find(res.begin(), res.end(), tmp) == res.end()) {
+                        res.push_back(tmp);    
+                    }
+                    */
+                    res.push_back(tmp);   
+                    front++;
+                    back--;
+                    //[reduce execution time]
+                    while(front < back && nums[front] == nums[front-1]) front++;
+                    while(front < back && nums[back] == nums[back+1]) back--;
+                } else if(sum < 0) {
+                    front++;
+                    while(front < back && nums[front] == nums[front-1]) front++;
+                } else if(sum > 0){
+                    back--;
+                    while(front < back && nums[back] == nums[back+1]) back--;
+                }
+            }
+        }
+        
+        sort(res.begin(), res.end());
+        auto final_res = unique(res.begin(), res.end());
+        res.erase(final_res, res.end());
+        
+        return res;
+    }
+};

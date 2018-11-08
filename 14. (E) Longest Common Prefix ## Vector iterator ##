@@ -1,0 +1,34 @@
+class Solution {
+public:
+    string longestCommonPrefix(vector<string>& strs) {
+        string prefix = "";
+        //[empty input]
+        if(strs.size() == -0) {
+            return prefix;
+        }
+        //[pop the first element from vector]
+        prefix = strs.front();
+        strs.erase(strs.begin());
+        
+        for(auto x : strs) {
+            //[keep shortest string to locate at prefix]
+            if(prefix.size() > x.size()) {
+                string tmp = prefix;
+                prefix = x;
+                x = tmp;    
+            }
+            //[no match prefix found]
+            if(prefix.size() == 0) {
+                return prefix;
+            } else {
+                //[cut prefix to suitable length if string compare didn't match current string]
+                for(int index = prefix.size()-1; index >= 0; index--) {
+                    if(prefix.at(index) != x.at(index)) {
+                        prefix.erase(index, prefix.size()-index);
+                    }
+                }    
+            }
+        }
+        return prefix;
+    }
+};
