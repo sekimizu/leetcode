@@ -1,0 +1,21 @@
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& numbers, int target) {
+        //if(numbers.size() == 2) return numbers;
+        vector<int>res;
+        
+        int left = 0, right = numbers.size()-1;
+        while(left < right) {
+            //cout << "left = " << left << "  right = " << right << endl;
+            int sum = target - numbers[left] - numbers[right];
+            if(sum == 0) {
+                res.push_back(left+1);
+                res.push_back(right+1);
+                left = right;
+            }
+            else if(sum < 0) right--;
+            else left++;
+        }
+        return res;
+    }
+};
