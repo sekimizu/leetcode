@@ -1,0 +1,30 @@
+class Solution {
+public:
+    bool isPalindrome(string s) {
+        if(s.size() == 0) return true;
+        vector<char>res;
+        for(int i = 0; i < s.size(); i++) {
+            //if(isalpha(s[i]) || isdigit(s[i])) {
+            if(isalnum(s[i])) {
+                res.push_back(tolower(s[i]));
+            }
+        }
+        #if 0
+        //----- print
+        cout << "----------------------" << endl;
+        for(int j=0; j<res.size();j++) {
+            cout << " " << res[j];
+        }
+        cout << endl;
+        cout << "----------------------" << endl;
+        #endif
+        int left = 0, right = res.size()-1;
+        while(left < right) {
+            //cout << " res[" << left << "]=" << res[left] << endl;
+            //cout << " res[" << right << "]=" << res[right] << endl;
+            if(res[left++] != res[right--]) return false;
+        }
+        return true;
+    }
+};
+
