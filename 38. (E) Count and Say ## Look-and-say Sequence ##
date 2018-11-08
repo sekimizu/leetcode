@@ -1,0 +1,36 @@
+/* 
+
+ Definition could be found here:
+ https://www.geeksforgeeks.org/look-and-say-sequence/
+
+*/
+class Solution {
+public:
+    string countAndSay(int n) {
+        if(n==1) {
+            return "1";   
+        }
+        string count_string = countAndSay(n-1);
+        //cout << " count_string = " << count_string << endl;
+        string res = "";
+        char pre_char = '-';
+        int counting = 0;
+        for(int i = 0; i < count_string.length(); i++) {
+            if(count_string.at(i) != pre_char) {
+                if(counting != 0) {
+                    res += to_string(counting);
+                    res += pre_char;
+                }
+                pre_char = count_string.at(i);
+                counting = 1;
+            } else {
+                counting++;
+            }
+            //cout << "pre_char = " << pre_char << " counting = " << counting << endl;
+        }
+        res += to_string(counting);
+        res += pre_char;
+        //cout << " res = " << res << endl;
+        return res;
+    }
+};

@@ -1,0 +1,24 @@
+/*
+
+ Using Kadane's Alg.
+ make table to solve DP question
+
+ https://www.youtube.com/watch?v=86CQq3pKSUw&fbclid=IwAR0UwJogKm_vq2asa-JCRPWEu60FC0x8nyvOOEoovEkOsYs8BT9agFYSHj8
+
+*/
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        if(nums.size() == 1) return nums[0];
+        int max_cur = nums[0];
+        int max_glo = max_cur;
+        
+        for(int i = 1; i < nums.size(); i++) {
+            max_cur = max(nums[i], max_cur + nums[i]);
+            max_glo = max(max_cur, max_glo);
+            //cout << " current = " << max_cur << endl;
+            //cout << " global = " << max_glo << endl;
+        }
+        return max_glo;
+    }
+};
