@@ -1,0 +1,51 @@
+class Solution {
+public:
+    void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
+        stack<int> sp;
+        int m_cur = m, n_cur = n;
+        
+        while(m_cur > 0 || n_cur > 0) {
+            //cout << " m_cur = " << m_cur << " n_cur = " << n_cur << endl;
+            if(n_cur == 0 || m_cur != 0 && nums1[m - m_cur] <= nums2[n - n_cur]) {
+                sp.push(nums1[m - m_cur]);
+                //cout << " pick " << nums1[m - m_cur] << endl;
+                m_cur--;
+            } else {
+                sp.push(nums2[n - n_cur]);
+                //cout << " pick " << nums2[n - n_cur] << endl;
+                n_cur--;
+            }
+        }
+        //cout << "stack size = " << sp.size() << endl;
+        for(int i=nums1.size()-1; i>=0; i--) {
+            nums1[i] = sp.top();
+            //cout << "  pop " << nums1[i] << " from stack..." << endl;
+            sp.pop();
+        }
+    }
+};
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+class Solution {
+public:
+    void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
+        int m_cur = m - 1, n_cur = n - 1;
+        int index = m + n - 1;
+        
+        while(m_cur >= 0 && n_cur >= 0) {
+            if(nums1[m_cur] > nums2[n_cur]) {
+                //cout << " pick nums1 " << nums1[m_cur] << endl;
+                nums1[index--] = nums1[m_cur--];
+            } else {
+                //cout << " pick nums2 " << nums2[n_cur] << endl;
+                nums1[index--] = nums2[n_cur--];
+            }
+        }
+        //[don't care if m_cur > 0, left nums1 in there]
+        //[copy rest of nums2 into nums1]
+        while(n_cur >= 0) {
+            nums1[index--] = nums2[n_cur--];
+        }
+    }
+};

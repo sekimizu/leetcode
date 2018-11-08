@@ -1,0 +1,20 @@
+class Solution {
+public:
+    vector<int> plusOne(vector<int>& digits) {
+        if(digits.size() == 0) return {1};
+        int index = digits.size() - 1;
+        int carry = 1;
+        
+        while(index >= 0 && carry != 0) {
+            digits.at(index) += carry;
+            carry = digits.at(index) / 10;
+            digits.at(index) %= 10;
+            index--;
+        }
+        if(carry) digits.insert(digits.begin(), carry);
+        return digits;
+    }
+};
+
+
+

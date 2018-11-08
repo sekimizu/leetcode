@@ -1,0 +1,84 @@
+##### Memory Limit Exceeded
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+    queue<int> q;
+    bool hasPathSum(TreeNode* root, int sum) {
+        if(!root) return false;
+        if(root->val == sum && !root->left && !root->right) {
+            //cout << " val = " << root->val << endl;
+            //[end, modify value and search again]
+            q.push(root->val);
+            root->val = 0;
+            return true;
+        }
+        
+        if(hasPathSum(root->left, sum-root->val) || hasPathSum(root->right, sum-root->val)) {
+            //cout << " val = " << root->val << endl;
+            q.push(root->val);
+            return true;
+        } 
+        return false;
+    }
+public:
+    vector<vector<int>> pathSum(TreeNode* root, int sum) {
+        vector<vector<int>>res = {};
+        while(hasPathSum(root, sum)) {
+            if(!q.empty()) {
+                vector<int> tmp(q.size(), 0);
+                for(int i=tmp.size()-1; i >= 0; i--) {
+                    tmp[i] = q.front();
+                    q.pop();
+                }
+                res.push_back(tmp);
+            }
+        }
+        return res;
+    }
+};
+
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+    void hasPathSum(TreeNode* root, int sum, vector<int>& path_cur, vector<vector<int>>& res) {
+        if(!root) return;
+        if(root->val == sum && !root->left && !root->right) {
+            path_cur.push_back(root->val);
+            res.push_back(path_cur);
+            path_cur.pop_back();
+            return;
+        }
+        
+        path_cur.push_back(root->val);
+        hasPathSum(root->left, sum-root->val, path_cur, res);
+        hasPathSum(root->right, sum-root->val, path_cur, res);
+        path_cur.pop_back();
+    }
+public:
+    vector<vector<int>> pathSum(TreeNode* root, int sum) {
+        vector<vector<int>> res;
+        vector<int> path_cur;
+        hasPathSum(root, sum, path_cur, res);
+        return res;
+    }
+};
+

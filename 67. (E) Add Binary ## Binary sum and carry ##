@@ -1,0 +1,16 @@
+class Solution {
+public:
+    string addBinary(string a, string b) {
+        string res = "";
+        int a_len = a.size() - 1;
+        int b_len = b.size() - 1;
+        int carry = 0;
+        while(a_len >= 0 || b_len >= 0 || carry) {
+            carry += a_len < 0 ? 0 : a[a_len--] - '0';
+            carry += b_len < 0 ? 0 : b[b_len--] - '0';
+            res = (carry % 2 ? "1" : "0") + res;
+            carry /= 2;
+        }
+        return res;
+    }
+};
