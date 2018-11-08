@@ -1,0 +1,33 @@
+#include <ctype.h>
+
+/*
+Value of INT_MAX is +2147483647.
+Value of INT_MIN is -2147483648.
+*/
+class Solution {
+public:
+    int myAtoi(string str) {
+        int factor = 1;
+        double res = 0;
+        
+        if(str.length()==0) return (int)res;
+        int index = str.find_first_not_of(' ');
+        
+        if(index == std::string::npos) {
+            index = 0;
+        }
+        if(str.at(index)=='+' || str.at(index)=='-') {
+            factor = (str.at(index) == '+') ? 1 : -1;
+            index++;
+        }
+        //cout << "index=" << index << endl;
+        while(index < str.length() && isdigit(str.at(index))) {
+            res = res*10 + str.at(index)-'0';
+            if(res*factor >= INT_MAX) return INT_MAX*factor;
+            if(res*factor <= INT_MIN) return INT_MIN*factor;
+            index++;
+        }
+        return (int)res*factor;
+    }
+    
+};

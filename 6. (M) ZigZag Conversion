@@ -1,0 +1,39 @@
+class Solution {
+public:
+    string convert(string s, int numRows) {
+        string result = "";
+        int interval = numRows * 2 - 3;
+        int first_interval, second_interval;
+        
+        if(numRows == 1) {
+            return s;
+        }
+        
+        for(int i = 0; i < numRows; i++) {
+            bool using_first = true;
+            int index = i;
+            
+            if(i==0 || i ==(numRows-1)) {
+                first_interval = interval;
+                second_interval = interval;
+            } else {
+                first_interval = interval - i*2;
+                second_interval = i*2 - 1;
+            }
+            
+            //cout << " First_interval = " << first_interval << endl;
+            //cout << " Second_interval = " << second_interval << endl;
+            
+            //cout << "=================" << endl;
+            while(index < s.length()) {
+                //cout << s.at(index) << " ";
+                //Add to result
+                result += s.at(index);
+                index = using_first ? index+first_interval+1 : index+second_interval+1;
+                using_first = !using_first;
+            }
+            //cout << "=================" << endl;
+        }
+        return result;
+    }
+};
