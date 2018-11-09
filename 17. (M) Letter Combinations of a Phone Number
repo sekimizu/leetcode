@@ -1,0 +1,36 @@
+class Solution {
+public:
+    void helper(map<char, string> &ref, vector<string> &res, string digit, string prefix) {
+        if(digit.size() == 0) return;
+        string translate = ref[digit[0]];
+        
+        if(digit.size() == 1) {
+            for(int i = 0; i < translate.size(); i++) {
+                res.push_back(prefix + translate[i]);
+            }
+            return;
+        }
+        
+        for(int j = 0; j < translate.size(); j++) {
+            helper(ref, res, digit.substr(1, digit.size()), prefix + translate[j]);
+        }
+    }
+    
+    vector<string> letterCombinations(string digits) {
+        vector<string> res;
+        map<char, string> ref = {
+            { '1', ""},
+            { '2', "abc"},
+            { '3', "def"},
+            { '4', "ghi"},
+            { '5', "jkl"},
+            { '6', "mno"},
+            { '7', "pqrs"},
+            { '8', "tuv"},
+            { '9', "wxyz"},
+            { '0', " "}
+        };
+        helper(ref, res, digits, "");
+        return res;
+    }
+};

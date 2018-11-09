@@ -1,0 +1,44 @@
+class Solution {
+public:
+    vector<int> intersect(vector<int>& nums1, vector<int>& nums2) {
+        vector<int> res = {};
+        sort(nums1.begin(), nums1.end());
+        sort(nums2.begin(), nums2.end());
+        
+        int index1 = 0, index2 = 0;
+        while(index1 < nums1.size() && index2 < nums2.size()) {
+            while(index1 < nums1.size() && nums1[index1] < nums2[index2]) index1++;
+            while(index2 < nums2.size() && nums2[index2] < nums1[index1]) index2++;
+            if(index1 >= nums1.size() || index2 >= nums2.size()) continue;
+            if(nums1[index1] == nums2[index2]) {
+                res.push_back(nums1[index1]);
+                index1++;
+                index2++;
+            }
+        }
+        return res;
+    }
+};
+
+@@@@@@@@@@@@@@@@@@@@@@
+
+class Solution {
+public:
+    vector<int> intersect(vector<int>& nums1, vector<int>& nums2) {
+        unordered_map<int, int> ctr;
+        
+        for(int i : nums1)
+            ctr[i]++;
+        
+        for(auto x : ctr) {
+            //cout << " first = " << x.first << endl;
+            //cout << " second = " << x.second << endl;
+            
+        }
+        vector<int> out;
+        for(int i : nums2) {
+            if(ctr[i]-- > 0) out.push_back(i);    
+        }
+        return out;    
+    }
+};
