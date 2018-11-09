@@ -1,0 +1,47 @@
+// Forward declaration of isBadVersion API.
+bool isBadVersion(int version);
+
+class Solution {
+public:
+    int firstBadVersion(int n) {
+        int lower_bound = 1, upper_bound = n;
+
+        while(lower_bound < upper_bound) {
+            int mid = lower_bound + (upper_bound - lower_bound) / 2;
+            if(isBadVersion(mid)) {
+                //is bad, seek left part
+                upper_bound = mid - 1;
+            } else {
+                //is good, seek right part
+                lower_bound = mid + 1;
+            }
+        }
+        if(isBadVersion(lower_bound)) return lower_bound;
+        return lower_bound + 1;
+    }
+};
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+// Forward declaration of isBadVersion API.
+bool isBadVersion(int version);
+
+class Solution {
+public:
+    int firstBadVersion(int n) {
+        int lower_bound = 1, upper_bound = n;
+
+        while(lower_bound < upper_bound) {
+            int mid = lower_bound + (upper_bound - lower_bound) / 2;
+            if(isBadVersion(mid)) {
+                //is bad, seek left part
+                upper_bound = mid;
+            } else {
+                //is good, seek right part
+                lower_bound = mid + 1;
+            }
+        }
+        //if(isBadVersion(lower_bound)) return lower_bound;
+        return lower_bound;// + 1;
+    }
+};
