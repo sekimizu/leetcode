@@ -1,0 +1,20 @@
+class Solution {
+public:
+    string reverseOnlyLetters(string S) {
+        int left = 0, right = S.size()-1;
+        
+        while(left < right) {
+            while(!isalpha(S[left])) left++;
+            while(!isalpha(S[right])) right--;
+            //cout << "left = " << left << " , right = " << right << endl;
+            //cout << " word : " << S[left] << " " << S[right] << endl;
+            if(left >= right) continue;
+            swap(S[left], S[right]);
+            left++;
+            right--;
+            
+        }
+        return S;
+    }
+};
+

@@ -1,0 +1,67 @@
+### Time Limit Exceeded
+
+class Solution {
+public:
+    vector<int> findAnagrams(string s, string p) {
+        unordered_map<char, int> cnt;
+        vector<int> res;
+        
+        for(char x : p) {
+            cnt[x]++;
+        }
+        
+        for(int i = 0; s.size() >= p.size() && i <= s.size() - p.size(); i++) {
+            unordered_map<char, int> buf(cnt.begin(), cnt.end());
+            int inner_i = i;
+            
+            while(inner_i != -1 && inner_i < p.size() + i) {
+                buf[s[inner_i]]--;
+                if(buf[s[inner_i]] < 0) {
+                    inner_i = -1;
+                    break;
+                }
+                inner_i++;
+            }
+            if(inner_i != -1) {
+                //cout << " Record index : " << i << endl;
+                res.push_back(i);
+            }
+        }
+        return res;
+    }
+};
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+class Solution {
+public:
+    vector<int> findAnagrams(string s, string p) {
+        //using vector<int> cnt(26,0) to fix array size instead of remove it from unordered_map
+        vector<int> res, p_cnt(26,0), s_cnt(26,0);
+        
+        if(s.size() < p.size()) return res;
+        
+        for(char x : p) {
+            p_cnt[x - 'a']++;
+        }
+        int ps = p.size();
+        
+        for(int i = 0; i < s.size(); i++) {
+            //cout << " i : " << i << " ============= " << endl;
+            s_cnt[s[i] - 'a']++;    
+            if(i >= ps) {
+                s_cnt[s[i-ps] - 'a']--;
+            }
+            /*
+            for(auto x : s_cnt) {
+                cout << " " << x.first << " " << x.second << endl;
+            }
+            */
+            if(s_cnt == p_cnt) {
+                res.push_back(i - ps + 1);
+            }
+            //cout << " ---------------- " << endl;
+        }
+        return res;
+    }
+};

@@ -1,0 +1,11 @@
+class Solution {
+public:
+    bool isLongPressedName(string name, string typed) {
+        int cnt = 0;
+        for(char x : typed) {
+            if(x == name[cnt]) cnt++;
+        }
+        return cnt == name.size();
+    }
+};
+

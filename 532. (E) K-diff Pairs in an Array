@@ -1,0 +1,42 @@
+class Solution {
+public:
+    int findPairs(vector<int>& nums, int k) {
+        if(nums.size() == 0 || k < 0) return 0;
+        
+        unordered_map<int, int> cnt;
+        set<pair<int, int>> res;
+        int standard = (k == 0 ? 2 : 1);
+        for(int x : nums) {
+            cnt[x]++;
+        }
+        for(int x : nums) {
+            if(cnt[x+k] >= standard) res.insert(make_pair(x, x+k));
+            //if(cnt[x-k] || cnt[x+k]) sum++;
+        }
+        return res.size();
+    }
+};
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+class Solution {
+public:
+    int findPairs(vector<int>& nums, int k) {
+        if(nums.size() == 0 || k < 0) return 0;
+        
+        unordered_map<int, int> cnt;
+        int sum = 0;
+        int standard = (k == 0 ? 2 : 1);
+        for(int x : nums) {
+            cnt[x]++;
+        }
+        for(auto x : cnt) {
+            if(x.second >= standard && cnt.count(x.first + k)) {
+                //cout << " ==> (" << x.first << "," << x.first + k <<")" << endl;
+                sum++;
+            }
+        }
+        return sum;
+    }
+};
+

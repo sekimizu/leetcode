@@ -1,0 +1,34 @@
+class Solution {
+public:
+    vector<int> sortArrayByParityII(vector<int>& A) {
+        //can't left++,right--, so set left->even, right->odd
+        int left = 0, right = A.size()-1;
+        
+        while(right >= 0 && left < A.size()) {
+            while((left % 2 != 0) || (A[left] % 2 == 0)) left++;
+            while((right % 2 == 0) || (A[right] % 2 != 0)) right--;
+            if(right < 0 || left >= A.size()) continue;
+            swap(A[left], A[right]);
+        }
+        return A;
+    }
+};
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+class Solution {
+public:
+    vector<int> sortArrayByParityII(vector<int>& A) {
+        //can't left++,right--, so set left->even, right->odd
+        int left = 0, right = A.size()-1;
+        
+        while(right >= 0 && left < A.size()) {
+            while(left < A.size() && A[left] % 2 == 0) left+=2;
+            while(right > 0 && A[right] % 2 != 0) right-=2;
+            if(left >= A.size() || right < 0) continue;
+            swap(A[left], A[right]);
+        }
+        return A;
+    }
+};
+

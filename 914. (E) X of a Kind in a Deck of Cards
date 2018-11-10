@@ -1,0 +1,39 @@
+class Solution {
+public:
+    int isPrime(int n) {
+        n = n+1;
+        vector<bool> check(n,true); 
+        int count = 0;
+        
+        //[mark 0 and 1 not prime]
+        check[0] = false;
+        check[1] = false;
+        
+        for(int i = 2; i < sqrt(n); i++) {
+            if(!check[i]) continue;
+            int j = pow(i, 2);
+            while(j <= n) {
+                check[j] = false;
+                j += i;
+            }
+        }
+        return check[n-1];
+    }
+    
+    bool hasGroupsSizeX(vector<int>& deck) {
+        if(deck.size() < 2) return false;
+        
+        unordered_map <int, int> s;
+        for(auto x : deck) {
+            s[x]++;
+        }
+        int X = -1;
+        for(auto x : s) {
+            if(X == -1) X = x.second;
+            if(X < 2) return false;
+            if(x.second != X && max(X, x.second) % min(X, x.second) != 0 && (isPrime(X) || isPrime(x.second))) return false;
+        }
+        return true;
+    }
+};
+
