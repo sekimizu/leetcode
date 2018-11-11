@@ -1,0 +1,24 @@
+class Solution {
+public:
+    string convertToBase7(int num) {
+        bool isNeg = false;
+        string res = "";
+        
+        if(num < 0) {
+            isNeg = true;
+            num = 0 - num;
+        }
+        
+        if(num / 7) {
+            int cnt = 1;
+            while(num >= pow(7, cnt)) cnt++;
+            for(int i = cnt-1; i >= 1; i--) {
+                int left = num / pow(7, i);
+                res = res + to_string(left);
+                num = num - pow(7, i) * left;    
+            }            
+        }
+        res = res + to_string(num);
+        return isNeg ? ("-" + res) : res;
+    }
+};

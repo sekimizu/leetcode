@@ -1,0 +1,74 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool isPalindrome(ListNode* head) {
+        stack<int> s, t;
+        while(head != NULL) {
+            s.push(head->val);
+            head = head->next;
+        }
+        if(s.size() <= 1) return true;
+        int loop = s.size();
+        for(int i = 0; i < loop / 2; i++) {
+            //cout << " push " << s.top() << " into t.." << endl;
+            t.push(s.top());
+            s.pop();
+        }
+        if(s.size() == t.size() + 1) {
+            s.pop();
+        }
+        return s == t;
+    }
+};
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool isPalindrome(ListNode* head) {
+        if(!head || !head->next) return true;
+        
+        ListNode *slow = head, *fast = head->next, *pre = NULL;
+        
+        while(true) {
+            if(!fast->next) {
+                //even linklist
+                fast = slow->next;
+                slow->next = pre;
+                break;
+            } else if(!fast->next->next) {
+                //odd linklist
+                fast = slow->next->next;
+                slow->next = pre;
+                break;
+            } else {
+                fast = fast->next->next;
+                ListNode *tmp = slow->next;
+                slow->next = pre;
+                pre = slow;
+                slow = tmp;
+            }
+        }
+        while(fast && slow) {
+            if(slow->val != fast->val) return false;
+            slow = slow->next;
+            fast = fast->next;
+        }
+        return true;
+    }
+};

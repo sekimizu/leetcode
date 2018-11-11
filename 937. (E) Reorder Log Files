@@ -1,0 +1,74 @@
+class Solution {
+public:
+    vector<string> reorderLogFiles(vector<string>& logs) {
+        vector<pair<string,string>> letter_logs, digit_logs;
+        vector<string> res;
+        
+        for(string x : logs) {
+            if(x.size() == 0) continue;
+            istringstream in(x);
+            bool isFirstWord = true, isLegal = true;
+            int isLetter = -1;
+            string dict = "";
+            
+            for(string word; isLegal && in >> word;) {
+                //cout << " " << word << endl;
+                if(isFirstWord) {
+                    for(char y : word) {
+                        if(!isalnum(y)) {
+                            //id not legal
+                            isLegal = false;
+                            continue;
+                        }
+                    }
+                    isFirstWord = false;
+                } else {
+                    if(isLetter == -1) {
+                        isLetter = (islower(word[0]) ? 1 : 2);
+                    }
+                    dict = dict + " " + word;
+                    for(char y : word) {
+                        if(isLetter == 1 ? !islower(y) : !isdigit(y)) {
+                            isLegal = false;    
+                        }
+                    }
+                }
+            }
+            if(isLegal) {
+                if(isLetter == 1) {
+                    letter_logs.push_back(make_pair(dict,x));
+                } else {
+                    digit_logs.push_back(make_pair(dict,x));
+                }
+            }
+        }
+        //#define DEBUG
+        sort(letter_logs.begin(),letter_logs.end());
+        //sort(digit_logs.begin(),digit_logs.end());
+        //reverse(digit_logs.begin(),digit_logs.end());
+        #ifdef DEBUG
+        cout << "==================" << endl;
+        #endif
+        for(auto x : letter_logs) {
+            #ifdef DEBUG
+            cout << " -> " << x.second; 
+            #endif
+            res.push_back(x.second);
+        }
+        #ifdef DEBUG
+        cout << "==================" << endl;
+        #endif
+        for(auto x : digit_logs) {
+            #ifdef DEBUG
+            cout << " -> " << x.second; 
+            #endif
+            res.push_back(x.second);
+        }
+        #ifdef DEBUG
+        cout << "==================" << endl;
+        #endif
+        
+        return res;
+        
+    }
+};
