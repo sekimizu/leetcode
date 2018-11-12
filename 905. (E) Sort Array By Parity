@@ -1,0 +1,15 @@
+class Solution {
+public:
+    vector<int> sortArrayByParity(vector<int>& A) {
+        if(A.size() <= 1) return A;
+        int left = 0, right = A.size()-1;
+        
+        while(left < right) {
+            while(A[left] % 2 == 0) left++;
+            while(A[right] % 2 == 1) right--;
+            if(left < right) swap(A[left], A[right]);
+        }
+        return A;
+    }
+};
+

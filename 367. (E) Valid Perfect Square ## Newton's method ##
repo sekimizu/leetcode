@@ -1,0 +1,40 @@
+class Solution {
+public:
+    bool isPerfectSquare(int num) {
+        if(num <= 0) return false;
+        if(num == 1) return true;
+        int i = num / 2;
+        while((long)i * i > num) i--;
+        //cout << i << endl;
+        return (i * i) == num;
+    }
+};
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+class Solution {
+public:
+    bool isPerfectSquare(int num) {
+        /*
+        Newton's method
+        Ref : 
+        https://en.wikipedia.org/wiki/Newton%27s_method
+        https://www.youtube.com/watch?v=1uN8cBGVpfs
+        
+        Babylonian method
+        https://en.wikipedia.org/wiki/Methods_of_computing_square_roots
+        
+        x(n+1) = 1/2 * ( x(n) + S / x(n))
+        
+        */
+        
+        // x0
+        long x = num * 100;
+        while(x * x > num) {
+            //find x1
+            x = (x + num / x) / 2;
+            cout << " x = " << x << endl;
+        }
+        return (x * x == num);
+    }
+};

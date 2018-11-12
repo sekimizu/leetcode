@@ -1,0 +1,75 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+    // int = node's value
+    priority_queue<int> pq;
+public:
+    void dfsTree(TreeNode *root) {
+        if(!root) return;
+        pq.push(root->val);
+        if(root->left) {
+            //pq.push(abs(root->val - root->left->val)); 
+            dfsTree(root->left);
+        }
+        if(root->right) {
+            //pq.push(abs(root->val - root->right->val));
+            dfsTree(root->right);
+        }
+    }
+    
+    int getMinimumDifference(TreeNode* root) {
+        int res = INT_MAX;
+        dfsTree(root);
+        
+        int pre = pq.top(); pq.pop();
+        while(!pq.empty()) {
+            int cur = pq.top();
+            res = min(res, pre - cur);
+            pre = cur;
+            pq.pop();
+        }
+        //cout << " Min abs = " << res << endl;
+        return res;
+    }
+};
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+
+https://www.geeksforgeeks.org/tree-traversals-inorder-preorder-and-postorder/
+
+ */
+class Solution {
+    int min_diff = INT_MAX;
+public:
+    //BST, so using In-order (Left,Root,Right) to traversal each nodes
+    void inorderBsTree(TreeNode *root, int &val) {
+        if(root->left) inorderBsTree(root->left, val);
+        if(root) {
+            if(val >= 0) min_diff = min(min_diff, abs(root->val - val));
+            val = root->val;
+        }
+        if(root->right) inorderBsTree(root->right, val);
+    }
+    
+    int getMinimumDifference(TreeNode* root) {
+        int val = -1;
+        inorderBsTree(root, val);
+        return min_diff;
+    }
+};

@@ -1,0 +1,42 @@
+######### Time Limit Exceeded
+
+class Solution {
+public:
+    int arrangeCoins(int n) {
+        if(n <= 1) return n;
+
+        int total_sum = 1, index = 2;
+        while(true) {
+            total_sum += index;
+            if(total_sum == n) {
+                //cout << "equal, index = " << index << endl;
+                break;  
+            } else if(total_sum > n) {
+                //cout << "bigger, index = " << index << endl;
+                index--;
+                break;
+            } else {
+                //cout << " save count[" << index << "] = " << total_sum << endl;
+                index++;
+            }
+        }
+        return index;
+    }
+};
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+class Solution {
+public:
+    int arrangeCoins(int n) {
+        if(n <= 1) return n;
+
+        long total_sum = 1, index = 2;
+        while(total_sum < n) {
+            total_sum += index;
+            index++;
+        }
+        return (total_sum == n ? index - 1: index - 2);
+    }
+};
+

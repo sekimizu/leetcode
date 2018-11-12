@@ -1,0 +1,28 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    // Right->Root->Left, 
+    void customOrderTree(TreeNode* root, int &val) {
+        if(root->right) customOrderTree(root->right, val);
+        if(root) {
+            val = root->val + val;
+            root->val = val;
+        }
+        if(root->left) customOrderTree(root->left, val);
+    }
+    
+    TreeNode* convertBST(TreeNode* root) {
+        if(!root) return root;
+        int val = 0;
+        customOrderTree(root, val);
+        return root;
+    }
+};
