@@ -1,0 +1,33 @@
+class Solution {
+public:
+    string toHex(int num) {
+        if(0 == num) return "0";
+        
+        string res = "";
+        long count;
+        bool print_zero = false;
+        if(num < 0) {
+            // -1 => 0xffffffff + 1 - 1 = 0xffffffff
+            count = 4294967295 + 1 + num;
+        } else {
+            count = num;
+        }
+        //cout << " count = " << count << endl;
+        for(int i = 7; i >= 0; i--) {
+            long temp = pow(16, i);
+            long digit = count / temp;
+            if(digit > 0 || print_zero) {
+                count -= temp * (int)digit;
+                print_zero = true;
+                if(digit >= 10) {
+                    //cout << " Add " << (digit -10 + 'a') << endl;
+                    res += (digit -10 + 'a');
+                } else {
+                    //cout << " Add " << to_string(digit) << endl;
+                    res+= to_string(digit);   
+                }
+            }
+        }
+        return res;
+    }
+};
