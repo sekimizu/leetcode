@@ -1,0 +1,16 @@
+class Solution {
+public:
+    string reverseWords(string s) {
+        string res = "";
+        istringstream in(s);
+        for(string word; in >> word;) {
+            for(int i = word.size()-1; i >= 0; i--) {
+                res += word[i];
+            }
+            res += " ";
+        }
+        if(res.size() != 0) res.resize(res.size() - 1);
+        return res;
+    }
+};
+

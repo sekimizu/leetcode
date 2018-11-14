@@ -1,0 +1,35 @@
+class Solution {
+public:
+    int compress(vector<char>& chars) {
+        if(chars.size() <= 1) return chars.size();
+        
+        int base_index = 0, l_index = 0, r_index = 0;
+
+        while(true) {
+            while(r_index < chars.size() && chars[l_index] == chars[r_index]) r_index++;
+            #ifdef DEBUG
+            cout << " left index : " << l_index << " right index : " << r_index <<endl;
+            cout << " left val : " << chars[l_index] << " right val : " << chars[r_index] <<endl;
+            #endif
+            chars[base_index++] = chars[l_index];
+            if(r_index - l_index > 1) {
+                //in-place swap
+                string temp = to_string(r_index - l_index);
+                for(char x : temp) {
+                    chars[base_index++] = x;
+                }
+            }
+            l_index = r_index;
+            if(r_index == chars.size()) {
+                break;
+            }
+        }
+        #ifdef DEBUG
+        for(char x : chars) {
+            cout << " " << x;
+        }    
+        cout << endl << " final base = " << base_index << endl;
+        #endif
+        return base_index;
+    }
+};

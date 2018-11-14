@@ -1,0 +1,48 @@
+class Solution {
+public:
+    int longestPalindrome(string s) {
+        int res = 0;
+        unordered_map<char, int> mapping;
+        bool isOddExist = false;
+        
+        for(char x : s) {
+            mapping[x]++;
+        }
+        for(auto x : mapping) {
+            //cout << " word : " << x.first << " , times : " << x.second<<endl;
+            if(x.second % 2 == 0) {
+                res+= x.second;
+                continue;
+            } else if(x.second > 2) {
+                //Odd, u : 5 times => use 4 times
+                res+= (x.second - 1);
+            }
+            if(!isOddExist) {
+                res += 1;
+                isOddExist = true;  
+            }
+        }
+        return res;
+    }
+};
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+class Solution {
+public:
+    int longestPalindrome(string s) {
+        unordered_map<char, int> mapping;
+        int odd = 0;
+        
+        for(char x : s) {
+            mapping[x]++;
+        }
+        for(auto x : mapping) {
+            //cout << " word : " << x.first << " , times : " << x.second<<endl;
+            if(x.second % 2 != 0) {
+                odd++;
+            }
+        }
+        return s.size() - odd + (odd > 0);
+    }
+};
