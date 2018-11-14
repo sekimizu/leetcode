@@ -1,0 +1,22 @@
+class Solution {
+public:
+    string licenseKeyFormatting(string S, int K) {
+        string res = "";
+
+        for(int i = S.size()-1; i >= 0; i--) {
+            if(S[i] == '-') continue;
+            
+            if(res.size() % (K + 1) == 0) {
+                res = "-" + res;
+            }
+            res = (char)toupper(S[i]) + res;
+            
+        }
+        res.resize(res.size() == 0 ? 0 : res.size()-1);
+        //cout << " res = " << res << endl;
+        return res;
+    }
+};
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@
+

@@ -1,0 +1,34 @@
+class Solution {
+    string res = "";
+    
+public:
+    void helper(char x, char y, int &sum, int &carry) {
+        //cout << " x " << (int)x << " y " << (int)y << endl;
+        sum = x + y - '0' * 2 + carry;
+        carry = sum / 10;
+        sum = sum % 10;
+        res = to_string(sum) + res;
+        //cout << " sum = " << sum << " carry = " << carry << endl;
+    }
+    
+    string addStrings(string num1, string num2) {
+        auto n1 = num1.rbegin();
+        auto n2 = num2.rbegin();
+        
+        int sum = 0, carry = 0;
+        
+        while(true) {
+            while(n1 == num1.rend() && n2 != num2.rend()) {
+                helper('0', *n2++, sum, carry);
+            }
+            while(n2 == num2.rend() && n1 != num1.rend()) {
+                helper(*n1++, '0', sum, carry);
+                
+            }
+            if(n1 == num1.rend() && n2 == num2.rend()) break;
+            helper(*n1++, *n2++, sum, carry);
+        }
+        return (carry == 1 ? "1" + res : res);
+    }
+};
+

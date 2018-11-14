@@ -1,0 +1,18 @@
+class Solution {
+public:
+    bool checkRecord(string s) {
+        unordered_map<char, int> mapping;
+        
+        for(char x : s) {
+            mapping[x]++;
+            //reset L counter to zero
+            if(x != 'L') mapping['L'] = 0;
+            if(mapping['A'] > 1 || mapping['L'] > 2) return false;
+        }
+        return true;
+    }
+};
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+return !regex_search(s, regex("A.*A|LLL"));
