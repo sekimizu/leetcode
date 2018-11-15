@@ -1,0 +1,83 @@
+class Solution {
+public:
+    int minMoves(vector<int>& nums) {
+        int n = nums.size(), min_index = 0, sum = 0;
+        
+        for(int i = 1; i < n; i++) {
+            if(nums[i] < nums[min_index]) min_index = i;
+        }
+        for(int j = 0; j < n; j++) {
+            //if(j == min_index) continue;
+            sum += (nums[j] - nums[min_index]);
+        }
+        return sum;   
+    }
+};
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+class Solution {
+public:
+    int minMoves(vector<int>& nums) {
+        int n = nums.size();
+        if(n <= 1) return 0;
+        int min_val = nums[0], sum = nums[0];
+        
+        for(int i = 1; i < n; i++) {
+            min_val = min(min_val, nums[i]);
+            sum += nums[i];
+        }
+        return (sum - min_val * n);
+    }
+};
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+
+##########  Time Limit Exceeded
+
+class Solution {
+public:
+    bool findMaxDiff(vector<int> &nums, int &diff, int &index) {
+        int m_val = nums[0], s_val = 0, cnt = 1; 
+        for(int i = 1; i < nums.size(); i++) {
+            if(nums[i] > m_val) {
+                s_val = m_val;
+                m_val = nums[i];
+                index = i;
+            } else if(nums[i] > s_val && nums[i] < m_val) {
+                s_val = nums[i];
+            } else if(nums[i] == m_val){
+                cnt++;
+            }
+        }
+        #ifdef DEBUG
+        cout << " findMaxDiff, max value :" << m_val << ", index :" << index << " , second val :" << s_val << endl;
+        #endif
+        diff = m_val - s_val;
+        return cnt == nums.size();
+    }
+        
+    int minMoves(vector<int>& nums) {
+        int diff = 0, index = 0, total_cnt = 0;
+        
+        while(!findMaxDiff(nums, diff, index)) {
+            for(int i = 0; i < nums.size(); i++) {
+                if(i == index) continue;
+                nums[i] += diff;
+            }
+            total_cnt += diff;
+            #ifdef DEBUG
+            for(auto x : nums) {
+                cout << " " << x;
+            }
+            cout << endl;
+            cout << " Total_cnt = " << total_cnt << endl;
+            #endif
+        }
+        
+        return total_cnt;   
+    }
+};
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
