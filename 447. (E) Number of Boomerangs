@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int numberOfBoomerangs(vector<pair<int, int>>& points) {
+        
+        int res = 0;
+        
+        for(int x = 0; x < points.size(); x++) {
+            unordered_map<int, int> cnt;
+            for(int y = 0; y < points.size(); y++) {
+                if(x == y) continue;
+                
+                int d = pow(points[x].first - points[y].first, 2) + pow(points[x].second - points[y].second, 2);
+                //cout << " Distance = " << d << endl;
+                cnt[d]++;
+            }
+            for(auto z : cnt) {
+                // n = Pn2 = n!/(n-2)! = n(n-1)
+                //cout << " z.first = " << z.first << " z.second = " << z.second << endl;
+                if(z.second > 1) {
+                    res += z.second * (z.second - 1);        
+                }
+            }
+        }
+        
+        return res;
+    }
+};

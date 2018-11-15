@@ -1,0 +1,64 @@
+### MISUNDERSTANDING
+
+class Solution {
+public:
+    #define DEBUG
+    int hammingDistance(int x, int y) {
+        //INT_MAX = 0x7FFFFFFF, maximum left 1 => 0x40000000
+        int l_mask = 0x40000000, r_mask = 0x1;
+        int l_index = 30, r_index = 0;
+
+        while(l_mask > r_mask && (x & l_mask)^(y & l_mask) == 0) {
+            #ifdef DEBUG
+            int w = (x & l_mask)^(y & l_mask);
+            cout << " MASK " << l_mask << " X && MASK " << (int)(x & l_mask) << " y && MASK " << (int)(y & l_mask);
+            cout << " XOR : " << w << endl;
+            #endif
+            l_mask>>=1;
+            l_index--;
+        }
+        while(l_mask > r_mask && (x & r_mask)^(y & r_mask) == 0) {
+            #ifdef DEBUG
+            int w = (x & r_mask)^(y & r_mask);
+            cout << " MASK " << r_mask << " X && MASK " << (int)(x & r_mask) << " y && MASK " << (int)(y & r_mask);
+            cout << " XOR : " << w << endl;
+            #endif
+            r_mask<<=1;
+            r_index++;
+        }
+        #ifdef DEBUG
+        cout << ">> r_mask = " << r_mask << endl;
+        cout << ">> l_mask = " << l_mask << endl;
+        cout << " l_index = " << l_index << " , r_index = " << r_index << endl;
+        #endif
+        if(r_mask > l_mask) return 0;
+        else return (l_index - r_index);
+    }
+};
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+/*
+
+n &= n-1
+
+1010111(87) -> 1010110 -> 1010100 -> 1010000 etc
+
+*/
+class Solution {
+public:
+    #define DEBUG
+    int hammingDistance(int x, int y) {
+        int n = x ^ y;
+        //return bitset<32>(n).count();
+        int cnt = 0;
+        
+        while(n) {
+            cnt++;
+            n &= (n-1);
+        }
+        return cnt;
+    }
+};
+
+

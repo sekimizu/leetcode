@@ -1,0 +1,57 @@
+class Solution {
+public:
+    int binaryGap(int N) {
+        int record = 0, cnt = 0;
+        bool startCount = false;
+        while(N > 0) {
+            //cout << " N =  " << N << endl;
+            if(startCount) cnt++;
+            if(N % 2 == 1) {
+                if(startCount) {
+                    record = max(record, cnt);
+                    cnt = 0;
+                } else {
+                    startCount = true;
+                }
+            }
+            N >>= 1;
+        }
+        return record;
+    }
+};
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+class Solution {
+public:
+    int binaryGap(int N) {
+        //int record = 0, cnt = 0;
+        //use -32 to guarantee that d never over zero when while array's value are zero
+        int record = 0, cnt = -32;
+        bool startCount = false;
+        while(N > 0) {
+            
+            cnt++;
+            if(N % 2) {
+                record = max(record, cnt);
+                cnt = 0;
+            }
+            
+            #if 0
+            //cout << " N =  " << N << endl;
+            if(startCount) cnt++;
+            if(N % 2 == 1) {
+                if(startCount) {
+                    record = max(record, cnt);
+                    cnt = 0;
+                } else {
+                    startCount = true;
+                }
+            }
+            #endif
+            N >>= 1;
+        }
+        return record;
+    }
+};
+

@@ -1,0 +1,95 @@
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    vector<Node*> children;
+
+    Node() {}
+
+    Node(int _val, vector<Node*> _children) {
+        val = _val;
+        children = _children;
+    }
+};
+*/
+class Solution {
+public:
+    int maxDepth(Node* root) {
+        if(!root) return 0;
+        queue<Node*> q;
+        int max_depth = 0;
+        q.push(root);
+        
+        while(!q.empty()) {
+            int n = q.size();
+            max_depth++;
+            for(int i = 0; i < n; i++) {
+                Node *tmp = q.front(); q.pop();
+                for(Node *x : tmp->children) {
+                    q.push(x);
+                }
+            }
+        }
+        return max_depth;
+    }
+};
+
+@@@@@@@@@@@@@@@@@@@@@@@@@
+
+class Solution {
+public:
+    int maxDepth(Node* root) {
+        if (!root) return 0;
+        int depth = 0;
+        for (auto child : root->children) depth = max(depth, maxDepth(child));
+        return 1 + depth;
+    }
+};
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    vector<Node*> children;
+
+    Node() {}
+
+    Node(int _val, vector<Node*> _children) {
+        val = _val;
+        children = _children;
+    }
+};
+*/
+class Solution {
+public:
+    void helper(queue<Node*> &q, int &max_depth, int cur_depth) {
+        int n = q.size();
+        if(n == 0) return;
+        for(int i = 0; i < n; i++) {
+            Node *tmp = q.front(); q.pop();
+            //Reach leaf
+            if(tmp->children.size() == 0) {
+                max_depth = max(max_depth, cur_depth);
+            } else {
+                for(Node *x : tmp->children) {
+                    q.push(x);
+                }
+            }   
+        }
+        helper(q, max_depth, cur_depth + 1);
+    }
+    
+    int maxDepth(Node* root) {
+        if(!root) return 0;
+        queue<Node*> q;
+        int max_depth = 0;
+        q.push(root);
+        helper(q, max_depth, 1);
+        return max_depth;
+    }
+};
+
