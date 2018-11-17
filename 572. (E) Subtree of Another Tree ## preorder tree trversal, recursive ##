@@ -1,0 +1,65 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool helper(TreeNode *s, TreeNode *t) {
+        if(!s && !t) return true;
+        if(s && !t || !s && t || s->val != t->val) return false;
+        return helper(s->left, t->left) && helper(s->right, t->right);
+    }
+    
+    bool isSubtree(TreeNode* s, TreeNode* t) {
+        if(!s && !t) return true;
+        if(!s && t) return false;
+        if(helper(s, t)) return true;
+        return isSubtree(s->left, t) || isSubtree(s->right, t);
+    }
+};
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+class Solution {
+    queue<TreeNode*> q;
+public:
+    void preOrderTraversal(TreeNode *s, TreeNode *t) {
+        if(!s || !t) return;
+        if(s->val == t->val) q.push(s);
+        if(s->left) preOrderTraversal(s->left, t);
+        if(s->right) preOrderTraversal(s->right, t);
+        return;
+    }
+    
+    bool helper(TreeNode *s, TreeNode *t) {
+        if(!s && !t) return true;
+        if(s && !t || !s && t || s->val != t->val) return false;
+        return helper(s->left, t->left) && helper(s->right, t->right);
+    }
+    
+    bool isSubtree(TreeNode* s, TreeNode* t) {
+        //all null tree, the same
+        if(!s && !t) return true;
+        if(!s && t) return false;
+        
+        preOrderTraversal(s, t);
+        
+        //cout << " " << q.size() << " nodes match..." << endl;
+        int i = 0;
+        while(!q.empty()) {
+            TreeNode *loadNode = q.front(); q.pop();
+            //cout << " Node " << i << ": " << loadNode->val << endl;
+            i++;
+            if(helper(loadNode, t)) return true;
+        }
+        return false;
+    }
+};
+
+
+

@@ -1,0 +1,13 @@
+class Solution {
+public:
+    int distributeCandies(vector<int>& candies) {
+        int n = candies.size(), total = 0;
+        if(n == 0) return 0;
+        unordered_map<int, int> mapping;
+        for(int x : candies) {
+            mapping[x]++;
+            total++;
+        }       
+        return min((int)mapping.size(), total / 2);
+    }
+};

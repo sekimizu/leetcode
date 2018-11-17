@@ -1,0 +1,52 @@
+class Solution {
+public:
+    void create_prefix_table(string s, vector<int> &prefix, int n) {
+        int i = 1, len = 0;
+        
+        while(i < n) {
+            //cout << " i = " << i << " len = " << len << endl;
+            if(s[i] == s[len]) {
+                len++;
+                prefix[i] = len;
+                i++;
+            } else {
+                if(len != 0) {
+                    len = prefix[len-1];
+                } else {
+                    len = 0;
+                    i++;
+                }
+            }
+        }
+        
+    }
+    
+    bool repeatedSubstringPattern(string s) {
+        if(s.size() <= 1) return false;
+        int index = 0, n = s.size();
+        vector<int> prefix(n, 0);
+        create_prefix_table(s, prefix, n);
+        
+        /*
+        for(auto x : prefix) {
+            cout << " " << x;
+        }
+        cout << endl;
+        */
+        while(index < s.size()) {
+            if(prefix[index] != 0) break;
+            index++;
+        }
+        
+        return (prefix[n-1] != 0 && prefix[n-1] % (n - prefix[n-1]) == 0);
+    }
+};
+
+#if 0
+
+EX: "abcabcabc" -> prefix "000123456"
+"abab" -> prefix "0012"
+"abaababaab" -> prefix 0011232345
+
+
+#endif
