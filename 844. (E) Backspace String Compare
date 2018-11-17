@@ -1,0 +1,45 @@
+class Solution {
+public:
+    bool backspaceCompare(string S, string T) {
+        stack<char> s, t;
+        
+        for(char x : S) {
+            if(!s.empty() && x == '#') s.pop();
+            else if(x != '#') s.push(x);
+        }
+        for(char x : T) {
+            if(!t.empty() && x == '#') t.pop();
+            else if(x != '#') t.push(x);
+        }
+        
+        return s == t;
+    }
+};
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+class Solution {
+public:
+    int helper(string &x) {
+        int i = 0, j = 0;
+        for(; i <x.size(); i++) {
+            if(x[i] == '#') {
+                if(j > 0) j--;
+            } else {
+                x[j++] = x[i];    
+            }
+        }
+        return j;
+    }
+    bool backspaceCompare(string S, string T) {
+        int s_len = helper(S);
+        int t_len = helper(T);
+
+        if(s_len != t_len) return false;
+        for(int i = 0; i < s_len; i++) {
+            //cout << " s " << S[i] << " t " << T[i] <<endl;
+            if(S[i] != T[i]) return false;
+        }
+        return true;
+    }
+};

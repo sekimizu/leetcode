@@ -1,0 +1,32 @@
+class Solution {
+public:
+    int islandPerimeter(vector<vector<int>>& grid) {
+        int land = 0, repeat = 0;
+        for(int i = 0; i < grid.size(); i++) {
+            for(int j = 0; j < grid[0].size(); j++) {
+                //cout << " i = " << i << " j " << j << endl;
+                if(grid[i][j]) {
+                    land++;
+                    if(i != 0 && grid[i-1][j] == 1) repeat++;//upper edge is repeat or not
+                    if(j != 0 && grid[i][j-1] == 1) repeat++;//left edge is repeat or not
+                }
+            }
+        }
+        return land * 4 - repeat * 2;
+    }
+};
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+j =      0   1   2   3
+       -----------------
+i = 0  | 0 | 1 | 0 | 0 |   <-- skip this row
+       -----------------
+i = 1  | 1 | 1 | 1 | 0 |   <-- check upper and left edge connect with 1.
+       -----------------
+i = 2  | 0 | 1 | 0 | 0 |
+       -----------------
+i = 3  | 1 | 1 | 0 | 0 |
+       -----------------
+         ^
+         |
+    skip this col

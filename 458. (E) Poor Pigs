@@ -1,0 +1,14 @@
+class Solution {
+public:
+    int poorPigs(int buckets, int minutesToDie, int minutesToTest) {
+        int buckets_per_group = (minutesToTest / minutesToDie) + 1;
+        int pigs = 0;
+        
+        while(pow(buckets_per_group, pigs) < buckets) {
+            pigs++;
+        }
+        //cout << " buckets_per_group " << buckets_per_group << endl;
+        //cout << " pigs " << pigs << endl;
+        return pigs;
+    }
+};

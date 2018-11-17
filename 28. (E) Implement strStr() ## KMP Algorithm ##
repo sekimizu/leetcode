@@ -1,0 +1,73 @@
+class Solution {
+/*
+P1:
+https://www.youtube.com/watch?v=dgPabAsTFa8
+P2:
+https://www.youtube.com/watch?v=3IFxpozBs2I
+*/
+public:
+    void create_prefix_table(string P, vector<int> &prefix, int n) {
+        int i = 1, len = 0;
+        //already been set to 0 by init
+        //prefix[0] = 0
+        while(i < n) {
+            if(P[i] == P[len]) {
+                len++;
+                prefix[i] = len;
+                i++;
+            } else {
+                if(len != 0) {
+                    len = prefix[len - 1];
+                } else {
+                    prefix[i] = 0;
+                    i++;
+                }
+            }
+        }
+    }
+    
+    void move_prefix_table(vector<int> &prefix, int n) {
+        prefix.insert(prefix.begin(), -1);
+        prefix.resize(n);
+    }
+    
+    int do_KMP(string text, string pattern) {
+        int t_len = text.size();
+        int p_len = pattern.size();
+        vector<int> prefix(p_len + 1, 0);
+        
+        create_prefix_table(pattern, prefix, p_len);
+        move_prefix_table(prefix, p_len);
+        /*
+        for(auto x : prefix) {
+            cout << " " << x;
+        }
+        cout << endl;
+        */
+        int i = 0, j = 0;
+        while(i < t_len) {
+            if(j == p_len - 1 && text[i] == pattern[j]) {
+                //cout << " Found index = " << (i - j) << endl;
+                return (i - j);
+            }
+            if(text[i] == pattern[j]) {
+                i++; j++;
+            } else {
+                j = prefix[j]; // -1 = prefix[0]
+                if(j == -1) {
+                    i++; j++;
+                }
+            }
+        }
+        return -1;
+    }
+    
+    int strStr(string haystack, string needle) {
+        if(needle.size() == 0) return 0;
+        string T = "ABABABABCABAAB";
+        string P = "ABABCABAA";
+        
+        //do_KMP(T, P);
+        return do_KMP(haystack, needle);
+    }
+};
