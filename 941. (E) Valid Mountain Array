@@ -1,0 +1,15 @@
+class Solution {
+public:
+    bool validMountainArray(vector<int>& A) {
+        if(A.size() < 3) return false;
+        int left = 0, right = A.size()-1;
+        
+        while(left < A.size()-2 && A[left+1] > A[left]) left++;
+        while(right > 0 && A[right-1] > A[right]) right--;
+        
+        //cout << " left = " << left << " A[left] = " << A[left] << endl;
+        //cout << " right = " << right << " A[right] = " << A[right] << endl;
+        
+        return (left == right && left != 0 && right != A.size()-1);
+    }
+};

@@ -1,0 +1,15 @@
+class Solution {
+public:
+    bool judgeSquareSum(int c) {
+        int cnt = 0;
+        
+        while(pow(cnt,2) <= c) {
+            int left = c - pow(cnt,2);
+            int s = sqrt(left);
+            //cout << " left = " << left << " s = " << s << endl;
+            if(pow(s,2) == left) return true;
+            cnt++;
+        }
+        return false;
+    }
+};

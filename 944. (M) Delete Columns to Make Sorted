@@ -1,0 +1,76 @@
+class Solution {
+public:
+    //#define DEBUG
+    int minDeletionSize(vector<string>& A) {
+        int inner_size = A.size(), outer_size = A[0].size();
+        //one element can not be removed
+        if(outer_size <= 1) return 0;
+        //0: not order, 1:increase, 2:decrease
+        vector<int> order(outer_size, 0);
+        
+        vector<vector<char>> res(outer_size, vector<char>(inner_size, 0));
+        vector<vector<char>> res_sorted(outer_size, vector<char>(inner_size, 0));
+        
+        #ifdef DEBUG
+        cout << " inner_size = " << inner_size << endl;
+        cout << " outer_size = " << outer_size << endl;
+        #endif
+        for(int i = 0; i < inner_size; i++) {
+            for(int j = 0; j < outer_size; j++) {
+                res[j][i] = A[i][j];
+            }
+        }
+
+        int ii = 0;
+        for(vector<char> x : res) {
+            sort(x.begin(), x.end());
+            res_sorted[ii] = x;
+            ii++;
+        }
+        
+        #ifdef DEBUG
+        cout << " res = " << endl;
+        for(vector<char> x : res) {
+            cout << endl;
+            for(int i = 0; i < x.size(); i ++) {
+                cout << " " << x[i];
+            }
+            cout << endl;
+        }
+        cout << endl;
+        
+        cout << " res sorted = " << endl;
+        for(vector<char> x : res_sorted) {
+            cout << endl;
+            for(int i = 0; i < x.size(); i ++) {
+                cout << " " << x[i];
+            }
+            cout << endl;
+        }
+        cout << endl;
+        #endif
+        int count0 = 0, count1 = 0, count2 = 0;
+        
+        for(int i = 0; i < outer_size; i++) {
+            int flag = 0;
+            if(res[i] == res_sorted[i]) {
+                flag = 1;
+            }
+            if(flag == 0) {
+                reverse(res_sorted[i].begin(), res_sorted[i].end());
+                flag = (res[i] == res_sorted[i] ? 2 : 0);
+            }
+            #ifdef DEBUG
+            cout << " i = " << i << " flag = " << flag << endl;
+            #endif
+            //order[i] = flag;
+            if(flag == 0) count0++;
+            else if(flag == 1) count1++;
+            else count2++;
+        }
+        #ifdef DEBUG
+        cout << " count 0 : " << count0 << " count 1 : " << count1 <<" count 2 : " << count2 << endl;
+        #endif
+        return count0 + count2;
+    }
+};
