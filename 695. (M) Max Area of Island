@@ -1,0 +1,154 @@
+class Solution {
+public:
+    int calculateArea(int x, int y, int m, int n, vector<vector<int>>& grid) {
+        //cout << " x = " << x << " , y = " << y << endl;
+        if(x >= 0 && x < m && y >= 0 && y < n && grid[x][y] == 1) {
+            grid[x][y] = 0;
+            return (1 + calculateArea(x-1, y, m, n, grid) + calculateArea(x+1, y, m, n, grid) + calculateArea(x, y-1, m, n, grid)+ calculateArea(x, y+1, m, n, grid));
+        }
+        return 0;
+    }
+    
+    int maxAreaOfIsland(vector<vector<int>>& grid) {
+        int m = grid.size(), n = grid[0].size(), max_area = 0;
+        
+        for(int i = 0; i < m; i++) {
+            for(int j = 0; j < n; j++) {
+                max_area = max(max_area, calculateArea(i, j, m, n, grid));        
+            }
+        }
+        return max_area;
+    }
+};
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+class Solution {
+public:
+    void countRow(int m, int n, vector<vector<int>>& grid, vector<vector<int>>& mapping) {
+        //calculate row value
+        for(int i = 0; i < m; i++) {
+            stack<pair<int, int>> s;
+            int start = -1, end = -1;
+            for(int j = 0; j < n; j++) {
+                if(grid[i][j] == 1) {
+                    //count start-end range
+                    start = (start == -1 ? j : start);
+                    end = j;
+                } else if(start != -1) {
+                    //record range
+                    s.push(make_pair(start, end));
+                    start = end = -1;
+                }
+                if(j == n - 1) {
+                    //last col, check land exist or not
+                    if(start != -1) {
+                        s.push(make_pair(start, n-1));
+                    }
+                }
+            }
+            //cout << " level " << i << " : " << endl;
+            while(!s.empty()) {
+                pair<int, int> x = s.top(); s.pop();
+                //cout << "(" << x.first << "," << x.second << ") ";
+                //fill into mapping
+                for(int ci = x.first; ci <= x.second; ci++) {
+                    mapping[i][ci] = (x.second - x.first + 1);
+                }
+                
+            }
+            //cout << endl;
+        }
+    }
+    
+    void countCol(int m, int n, vector<vector<int>>& grid, vector<vector<int>>& mapping) {
+        //calculate row value
+        for(int i = 0; i < n; i++) {
+            stack<pair<int, int>> s;
+            int start = -1, end = -1;
+            for(int j = 0; j < m; j++) {
+                if(grid[j][i] == 1) {
+                    //count start-end range
+                    start = (start == -1 ? j : start);
+                    end = j;
+                } else if(start != -1) {
+                    //record range
+                    s.push(make_pair(start, end));
+                    start = end = -1;
+                }
+                if(j == m - 1) {
+                    //last col, check land exist or not
+                    if(start != -1) {
+                        s.push(make_pair(start, m-1));
+                    }
+                }
+            }
+            //cout << " level " << i << " : " << endl;
+            while(!s.empty()) {
+                pair<int, int> x = s.top(); s.pop();
+                //cout << "(" << x.first << "," << x.second << ") ";
+                //fill into mapping
+                for(int ci = x.first; ci <= x.second; ci++) {
+                    mapping[ci][i] = (x.second - x.first + 1);
+                }
+                
+            }
+            //cout << endl;
+        }
+    }
+    
+    void combineTable(int m, int n, vector<vector<int>>& mapping_row, vector<vector<int>>& mapping_col, int &max_area) {
+        for(int i = 0; i < m; i++) {
+            for(int j = 0; j < n; j++) {
+                if(mapping_row[i][j] != 0 || mapping_col[i][j] != 0) {
+                    mapping_row[i][j] += mapping_col[i][j];
+                    max_area = max(max_area, mapping_row[i][j]);
+                }
+            }
+        }
+    }
+    
+    int maxAreaOfIsland(vector<vector<int>>& grid) {
+        int m = grid.size(), n = grid[0].size(), max_area = 0;
+        vector<vector<int>> mapping_row(m, vector<int>(n, 0));
+        vector<vector<int>> mapping_col(m, vector<int>(n, 0));
+        
+        countRow(m, n, grid, mapping_row);
+        countCol(m, n, grid, mapping_col);
+        
+        #if 0
+        cout << " Dump mapping row table ..." << endl;
+        for(auto x : mapping_row) {
+            for(auto y : x) {
+                cout << " " << y;
+            }
+            cout << endl;
+        }
+        cout << "--" << endl;
+        
+        cout << " Dump mapping col table ..." << endl;
+        for(auto x : mapping_col) {
+            for(auto y : x) {
+                cout << " " << y;
+            }
+            cout << endl;
+        }
+        cout << "--" << endl;
+        #endif
+        
+        combineTable(m, n, mapping_row, mapping_col, max_area);
+        
+        #if 0
+        cout << " Dump sum mapping table (max = " << max_area << ")..." << endl;
+        for(auto x : mapping_row) {
+            for(auto y : x) {
+                cout << " " << y;
+            }
+            cout << endl;
+        }
+        cout << "--" << endl;
+        #endif
+        
+        return max_area;
+    }
+};

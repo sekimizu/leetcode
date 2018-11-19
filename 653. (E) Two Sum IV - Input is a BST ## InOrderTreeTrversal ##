@@ -1,0 +1,62 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool preOrderTreeTrversal(TreeNode* root, set<int> &res, int k) {
+        if(!root) return false;
+        if(res.count(k - root->val)) return true;
+        res.insert(root->val);
+        return preOrderTreeTrversal(root->left, res, k) || preOrderTreeTrversal(root->right, res, k);
+    }
+    
+    bool findTarget(TreeNode* root, int k) {
+        set<int> res;
+        return preOrderTreeTrversal(root, res, k);
+    }
+};
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    void inOrderTreeTrversal(TreeNode* root, vector<int> &res) {
+        if(!root) 0;
+        if(root->left) inOrderTreeTrversal(root->left, res);
+        res.push_back(root->val);
+        if(root->right) inOrderTreeTrversal(root->right, res);
+    }
+    
+    bool findTarget(TreeNode* root, int k) {
+        vector<int> res;
+        
+        inOrderTreeTrversal(root, res);
+        
+        int left = 0, right = res.size() - 1;
+        
+        while(left < right) {
+            if(res[left] + res[right] == k) {
+                return true;
+            } else if(res[left] + res[right] < k) {
+                left++;
+            } else {
+                right--;   
+            }
+        }
+        return false;
+    }
+};

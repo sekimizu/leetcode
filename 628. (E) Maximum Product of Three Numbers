@@ -1,0 +1,69 @@
+class Solution {
+public:
+    int maximumProduct(vector<int>& nums) {
+        int n = nums.size();
+        sort(nums.begin(), nums.end());
+        
+        return max(nums[0] * nums[1] * nums[n-1], nums[n-3] * nums[n-2] * nums[n-1]);
+    }
+};
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+class Solution {
+public:
+    int maximumProduct(vector<int>& nums) {
+        int n = nums.size();
+        int need = 3, sum = 1;
+        //monotone stack
+        stack<int> s1, s2;
+        vector<int> m(n, 0);
+        vector<int> max_val;
+        
+        if(n == 3) {
+            return nums[0] * nums[1] * nums[2];
+        }
+        //check left
+        for(int i = n - 1; i >= 0; i--) {
+            while(!s1.empty() && s1.top() <= nums[i]) s1.pop();
+            if(s1.empty()) {
+                max_val.push_back(nums[i]);
+            }
+            s1.push(nums[i]);
+        }
+        //check right
+        for(int i = 0; i <= n; i++) {
+            while(!s2.empty() && s2.top() <= nums[i]) s2.pop();
+            if(s2.empty()) {
+                max_val.push_back(nums[i]);
+            }
+            s2.push(nums[i]);
+        }
+        //cout << " max_val list size = " << max_val.size() << endl;
+        sort(max_val.begin(), max_val.end());
+        auto last = unique(max_val.begin(), max_val.end());
+        max_val.erase(last, max_val.end()); 
+        
+        #if 1
+        for(int x : max_val) {
+            cout << " [" << x << "]";
+        }
+        cout << endl;
+        #endif
+        //count appear times
+        for(int i = max_val.size() - 1; i >= 0 && need > 0; i--) {
+            int cnt = count(nums.begin(), nums.end(), max_val[i]);
+            //cout << " max = " << max_val[i] << " count = " << cnt << endl;
+            if(cnt >= need) {
+                sum *= pow(max_val[i], need);
+                need = 0;
+            } else if(cnt != 0) {
+                sum *= cnt * max_val[i];
+                need = need - cnt;
+            }
+        }
+        
+        return sum;
+    }
+};
+
