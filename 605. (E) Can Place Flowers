@@ -1,0 +1,42 @@
+class Solution {
+public:
+    bool canPlaceFlowers(vector<int>& flowerbed, int n) {
+        int cnt = 0, pre_spot = -2;
+        
+        if(flowerbed.size() == 1 && flowerbed[0] == 0) return true;
+        
+        for(int i = 0; i < flowerbed.size(); i++) {
+            if(flowerbed[i] == 1) {
+                cnt += (pre_spot == -2 ? i : i - pre_spot - 2) / 2;
+                pre_spot = i;
+            } else if(i ==  flowerbed.size() - 1) {
+                cnt += (i - pre_spot) / 2;
+            }
+        }
+        
+        //cout << " Availalbe empty pos count : " << cnt << endl;
+        return cnt >= n;
+    }
+};
+
+
+---- ( x / 2) ---- 1 ------ (x - y - 2) / 2 ---------- 1 ---- ( x - y ) / 2 ----
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+class Solution {
+public:
+    bool canPlaceFlowers(vector<int>& flowerbed, int n) {
+        //add 0 at head & tail
+        flowerbed.insert(flowerbed.begin(), 0);
+        flowerbed.push_back(0);
+        
+        for(int i = 1; i < flowerbed.size() - 1; i++) {
+            if(flowerbed[i - 1] + flowerbed[i] + flowerbed[i + 1] == 0) {
+                n--;
+                i++;
+            }
+        }
+        return n <= 0;
+    }
+};
