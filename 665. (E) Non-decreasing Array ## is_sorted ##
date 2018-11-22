@@ -1,0 +1,39 @@
+class Solution {
+public:
+    bool checkPossibility(vector<int>& nums) {
+        int n = nums.size();
+        if(n <= 2) return true;
+        
+        int left = 0, right = n - 1;
+        
+        while(left < n - 1 && nums[left] <= nums[left + 1]) left++;
+        while(right > 0 && nums[right - 1] <= nums[right]) right--;
+        
+        if(left == n - 1 && right == 0) return true;
+        if(right - left != 1) return false;
+        
+        int r_min = (right == n - 1 ? INT_MAX : nums[right + 1]);
+        int l_max = (left == 0 ? INT_MIN : nums[left - 1]);
+        
+        return (nums[left] < r_min || l_max < nums[right]);
+    }
+};
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+class Solution {
+public:
+    bool checkPossibility(vector<int>& nums) {
+        for(int i = 0; i < nums.size() - 1; i++) {
+            if(nums[i] > nums[i + 1]) {
+                int temp = nums[i];
+                nums[i] = nums[i + 1];
+                if(is_sorted(nums.begin(), nums.end())) return true;
+                nums[i] = nums[i + 1] = temp;
+                if(is_sorted(nums.begin(), nums.end())) return true;
+                return false;
+            }
+        }
+        return true;
+    }
+};
