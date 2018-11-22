@@ -1,0 +1,28 @@
+class Solution {
+public:
+    vector<vector<int>> imageSmoother(vector<vector<int>>& M) {
+        int m = M.size(), n = M[0].size();
+        vector<int> range = {-1, 0, 1};
+        vector<vector<int>> res(m, vector<int>(n, 0));
+        
+        for(int x = 0; x < m; x++) {
+            for(int y = 0; y < n; y++) {
+                int count = 0;
+                int current = 0;
+                
+                for(int a : range) {
+                    for(int b : range) {
+                        int row = x + a;
+                        int col = y + b;
+                        if(col >= 0 && col < n && row >= 0 && row < m) {
+                            current += M[row][col];
+                            count++;
+                        }
+                    }
+                }
+                res[x][y] = (int) floor((double) current / count);
+            }
+        }
+        return res;
+    }
+};

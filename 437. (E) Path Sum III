@@ -1,0 +1,69 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    void helper(TreeNode* node, int sum, int &cnt) {
+        if(!node) return;
+        if(node->val == sum) cnt++;
+        if(node->left) helper(node->left, sum - node->val, cnt);
+        if(node->right) helper(node->right, sum - node->val, cnt); 
+    }
+    
+    int pathSum(TreeNode* root, int sum) {
+        if(!root) return 0;
+        int cnt = 0;
+        helper(root, sum, cnt);
+        return cnt + pathSum(root->left, sum) + pathSum(root->right, sum);
+    }
+};
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    void helper(TreeNode* node, int sum, int &cnt) {
+        if(!node) return;
+        
+        if(node->val == sum) {
+            //cout << "node value : " << node->val << endl;
+            cnt++;
+        }
+        if(node->left) {
+            //include current node
+            helper(node->left, sum - node->val, cnt);
+            //start new tree search
+            //helper(node->left, target, cnt, target);
+        }
+        if(node->right) {
+            //include current node
+            helper(node->right, sum - node->val, cnt);   
+            //start new tree search
+            //helper(node->right, target, cnt, target);
+        }
+        
+    }
+    
+    int pathSum(TreeNode* root, int sum) {
+        if(!root) return 0;
+        
+        int cnt = 0;
+        helper(root, sum, cnt);
+        return cnt + pathSum(root->left, sum) + pathSum(root->right, sum);
+    }
+};

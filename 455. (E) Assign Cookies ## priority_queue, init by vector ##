@@ -1,0 +1,42 @@
+class Solution {
+public:
+    int findContentChildren(vector<int>& g, vector<int>& s) {
+        priority_queue<int, vector<int>, greater<int>> gq(g.begin(), g.end());
+        priority_queue<int, vector<int>, greater<int>> sq(s.begin(), s.end());
+        int cnt = 0;
+        while(!gq.empty() && !sq.empty()) {
+            if(sq.top() >= gq.top()) {
+                sq.pop();
+                gq.pop();
+                cnt++;
+            } else {
+                sq.pop();
+            }
+        }
+        return cnt;
+    }
+};
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+class Solution {
+public:
+    int findContentChildren(vector<int>& g, vector<int>& s) {
+        sort(g.begin(), g.end());
+        sort(s.begin(), s.end());
+        
+        int i = g.size() - 1, j = s.size() - 1, cnt = 0;
+        
+        while(i >= 0 && j >= 0) {
+            if(s[j] >= g[i]) {
+                cnt++;
+                j--;
+                i--;
+            } else {
+                i--;
+            }
+        }
+        
+        return cnt;
+    }
+};

@@ -1,0 +1,14 @@
+class Solution {
+public:
+    bool judgeCircle(string moves) {
+        map<char, int> dir = { {'U', 1}, {'D', -1}, {'L', 1}, {'R', -1}};
+        int x_pos = 0, y_pos = 0;
+        
+        for(char x : moves) {
+            if(x == 'U' || x == 'D') y_pos += dir[x];
+            else if(x == 'L' || x == 'R') x_pos += dir[x];
+        }
+        return (x_pos == 0 && y_pos == 0);
+    }
+};
+
