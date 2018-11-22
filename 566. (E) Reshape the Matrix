@@ -1,0 +1,42 @@
+class Solution {
+public:
+    vector<vector<int>> matrixReshape(vector<vector<int>>& nums, int r, int c) {
+        int m = nums.size();
+        if(m == 0) return {};
+        
+        int n = nums[0].size(), elements = m * n;
+        if(elements != r * c) return nums;
+       
+        vector<vector<int>> res(r, vector<int>(c, 0));
+        for(int i = 0; i < elements; i++) {
+            res[i / c][i % c] = nums[i / n][i % n];
+        }
+        return res;
+    }
+};
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+class Solution {
+public:
+    vector<vector<int>> matrixReshape(vector<vector<int>>& nums, int r, int c) {
+        if(nums.size() == 0 || nums[0].size() == 0) return {};
+        if(nums.size() * nums[0].size() != r * c) return nums;
+        
+        queue<int> buf;
+        for(auto x : nums) {
+            for(auto y : x) {
+                buf.push(y);
+            }
+        }
+        vector<vector<int>> res(r, vector<int>(c, 0));
+        for(int i = 0; i < r; i++) {
+            for(int j = 0; j < c; j++) {
+                res[i][j] = buf.front();
+                buf.pop();
+            }
+        }
+        return res;
+    }
+};
+

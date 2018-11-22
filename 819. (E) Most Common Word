@@ -1,0 +1,32 @@
+class Solution {
+public:
+    string mostCommonWord(string paragraph, vector<string>& banned) {
+        istringstream in(paragraph);
+        set<char> symbols = {'!', '?', '\'', ',', ';', '.', ' '};
+        map<string, int> m;
+        string str ="";
+        
+        for(int i = 0; i < paragraph.size() + 1; i++) {
+            if(i != paragraph.size() && symbols.count(paragraph[i]) == 0) {
+                str += tolower(paragraph[i]);
+            } else {
+                if(str.size() != 0) {
+                    m[str]++;
+                    str = "";
+                }
+            }
+        }
+        for(string key : banned) {
+            m[key] = 0;
+        }
+        int max_val = -1;
+        string max_string = "";
+        for(auto x : m) {
+            if(x.second > max_val) {
+                max_val = x.second;
+                max_string = x.first;
+            }
+        }    
+        return max_string;
+    }
+};

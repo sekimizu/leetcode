@@ -1,0 +1,15 @@
+class Solution {
+public:
+    int numJewelsInStones(string J, string S) {
+        //set<char> not case senstive
+        set<int> mark;
+        int cnt = 0;
+        for(auto x : J) {
+            mark.insert(x - 'A');
+        }
+        for(auto x : S) {
+            if(mark.count(x - 'A') > 0) cnt++;
+        }
+        return cnt;
+    }
+};
