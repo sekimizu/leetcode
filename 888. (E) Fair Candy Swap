@@ -1,0 +1,35 @@
+class Solution {
+public:
+    vector<int> fairCandySwap(vector<int>& A, vector<int>& B) {
+        int a_sum = 0, b_sum = 0, ai = 0, bi = 0;
+        float diff = 0.0;
+ 
+        for(int x : A) {
+            a_sum += x;
+        }
+        for(int x : B) {
+            b_sum += x;
+        }
+        sort(A.begin(), A.end());
+        sort(B.begin(), B.end());
+        diff = (a_sum - b_sum) / 2;
+        
+        //already equal
+        if(diff == 0) return {0, 0};
+
+        while(ai <= A.size() - 1 && bi <= B.size() - 1) {
+            float sum = (A[ai] - B[bi]);
+            if(sum == diff) {
+                //equal
+                return {A[ai], B[bi]};
+            } else if(sum > diff) {
+                //A give not enough
+                bi++;
+            } else {
+                //B give not enough
+                ai++;
+            }
+        }
+        return {-1, -1};
+    }
+};

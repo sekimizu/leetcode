@@ -1,0 +1,53 @@
+class Solution {
+public:
+    int numSpecialEquivGroups(vector<string>& A) {
+        if(A.size() == 0) return 0;
+        set<pair<string, string>> s;
+        
+        for(auto x : A) {
+            pair<string, string> p("", "");
+            for(int i = 0; i < x.size(); i++) {
+                if(i % 2 == 0) p.first += x[i];
+                else p.second += x[i];
+            }
+            sort(p.first.begin(), p.first.end());
+            sort(p.second.begin(), p.second.end());
+            s.insert(p);
+        }
+        
+        return s.size();
+    }
+};
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+class Solution {
+public:
+    string helper(string str) {
+        priority_queue<char> odd, even;
+        string res = "";
+        for(int i = 0; i < str.size(); i++) {
+            if(i % 2 == 0) even.push(str[i]);
+            else odd.push(str[i]);
+        }
+        while(!even.empty()) {
+            res += even.top();
+            even.pop();
+        }
+        while(!odd.empty()) {
+            res += odd.top();
+            odd.pop();
+        }
+        return res;
+    }
+    
+    int numSpecialEquivGroups(vector<string>& A) {
+        if(A.size() == 0) return 0;
+        unordered_map<string, int> m;
+        for(auto x : A) {
+            string key = helper(x);
+            if(key.size() != 0) m[key]++;
+        }
+        return m.size();
+    }
+};

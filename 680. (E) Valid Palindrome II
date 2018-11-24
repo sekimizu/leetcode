@@ -1,0 +1,72 @@
+class Solution {
+public:
+    bool valid(string s, int left, int right, int chance) {
+        if(chance < 0) return false;
+        while(left < right && s[left] == s[right]) {
+            left++;
+            right--;
+        }
+        if(left >= right) return true;
+        return (valid(s, left + 1, right, chance - 1) || valid(s, left, right - 1, chance - 1));
+    }
+    
+    bool validPalindrome(string s) {
+        if(s.size() <= 2) return true;
+        return valid(s, 0, s.size() - 1, 1);
+    }
+};
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+class Solution {
+public:
+    bool validPalindrome(string s) {
+        if(s.size() <= 2) return true;
+        
+        int left = 0, right = s.size() - 1;
+        int save_left = -1, save_right = -1;
+        bool chance = true;
+        
+        while(true) {
+            while(left < right && s[left] == s[right]) {
+                left++;
+                right--;
+            }
+            //cout << " left = " << left << " right = " << right << endl;
+            //palindrome
+            if(left >= right || left + 1 == right) return true;
+            
+            //maybe skip left is a bad idea, so need to save-load if failed again
+            if(chance && s[left + 1] == s[right]) {
+                /* testcase failed cause ...cupuu......pucu... error */
+                /* save other possible way, skip right */
+                save_left = left;
+                save_right = right - 1;
+                
+                //left skip a index
+                left++;
+                chance = false;
+                continue;
+            }
+            if(chance && s[right - 1] == s[left]) {
+                /* save other possible way, skip right */
+                save_left = left + 1;
+                save_right = right;
+                
+                //right skip a index
+                right--;
+                chance = false;
+                continue;
+            }
+            if(!chance && save_left != -1 && save_right != -1) {
+                left = save_left;
+                right = save_right;
+                save_left = save_right = -1;
+                continue;
+            }
+            break;
+        }
+        return false;
+    }
+};
+

@@ -1,0 +1,28 @@
+class Solution {
+public:
+    string longestWord(vector<string>& words) {
+        sort(words.begin(), words.end());
+        set<string> m;
+
+        string ans = "";
+        
+        for(auto x : words) {
+            m.insert(x);
+        }
+        
+        for(int i = words.size() - 1; i >= 0; i--) {
+            if(words[i].size() < ans.size()) continue;
+            string tmp = "";
+            for(int j = 0; j < words[i].size(); j++) {
+                tmp += words[i][j];
+                if(m.count(tmp) == 0) {
+                    tmp = "";
+                    j = words[i].size();
+                }
+            }
+            if(tmp.size() != 0 && tmp.size() >= ans.size()) ans = tmp;
+        }
+        
+        return ans;
+    }
+};

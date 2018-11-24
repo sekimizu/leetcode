@@ -1,0 +1,65 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    void inOrderTree(TreeNode* root, queue<TreeNode*> &q) {
+        if(!root) return;
+        inOrderTree(root->left, q);
+        q.push(root);
+        inOrderTree(root->right, q);
+    }
+    
+    TreeNode* increasingBST(TreeNode* root) {
+        queue<TreeNode *> q;
+        inOrderTree(root, q);
+        
+        TreeNode *head, *cur;
+        head = cur = NULL;
+        
+        if(!q.empty()) {
+            head = cur = q.front(); q.pop();
+            head->left = head->right = NULL;
+        }
+        
+        while(!q.empty()) {
+            TreeNode *node = q.front(); q.pop();
+            node->left = node->right = NULL;
+            cur->right = node;
+            cur = cur->right;
+        }
+        return head;
+    }
+};
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* inOrderTree(TreeNode* root, TreeNode* tail) {
+        if(!root) return tail;
+        TreeNode* node = inOrderTree(root->left, root);
+        root->left = NULL;
+        root->right = inOrderTree(root->right, tail);
+        return node;
+    }
+    
+    TreeNode* increasingBST(TreeNode* root) {
+        return inOrderTree(root, NULL);
+    }
+};
