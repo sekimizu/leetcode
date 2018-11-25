@@ -1,0 +1,63 @@
+class Solution {
+public:
+    int calPoints(vector<string>& ops) {
+        vector<int> record;
+        int sum = 0;
+        
+        for(string x : ops) {
+            if(x == "C") {
+                if(record.size() > 0) record.pop_back();
+            } else if(x == "D") {
+                record.push_back(record.back() * 2);
+            } else if(x == "+") {
+                int sum = (record.size() >= 2 ? record[record.size() - 2] : 0) + (record.size() >= 1 ? record[record.size() - 1] : 0);
+                record.push_back(sum);
+            } else {
+                record.push_back(stoi(x));
+            }
+        }
+        //dump
+        for(auto x : record) {
+            //cout << " " << x;
+            sum += x;
+        }
+        //cout << endl;
+        return sum;
+    }
+};
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+class Solution {
+public:
+    int calPoints(vector<string>& ops) {
+        vector<int> record(ops.size(), 0);
+        
+        int sum = 0, index = 0;
+        for(string x : ops) {
+            if(x == "C" && index != 0) {
+                record[index - 1] = 0;
+                index--;
+            } else if(x == "D" && index != 0) {
+                record[index] = record[index - 1] * 2;
+                index++;
+            } else if(x == "+") {
+                int start = max(0, index - 2);
+                for(start; start < index; start++) {
+                    record[index] += record[start];
+                }
+                index++;
+            } else {
+                int score = stoi(x);
+                record[index] = score;
+                index++;
+            }
+        }
+        //dump
+        for(auto x : record) {
+            //cout << " " << x;
+            sum += x;
+        }
+        //cout << endl;
+        return sum;
+    }
+};

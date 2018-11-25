@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int search(vector<int>& nums, int target) {
+        int left = 0, right = nums.size() - 1;
+        
+        while(left <= right) {
+            // save more time from this code
+            int mid = (left + right) / 2;
+            //int mid = left + (right - left) / 2;
+            
+            if(nums[mid] == target) {
+                //found
+                return mid;
+            } else if(nums[mid] > target) {
+                //left part
+                right = mid - 1;
+            } else {
+                //right part
+                left = mid + 1;
+            }
+        }
+        return -1;
+    }
+};

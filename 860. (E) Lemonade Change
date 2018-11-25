@@ -1,0 +1,30 @@
+class Solution {
+public:
+    bool lemonadeChange(vector<int>& bills) {
+        //use map for ordered, tail will be the largest charge's count
+        map<int, int> charges;
+        int price = 5;
+        
+        for(auto x : bills) {
+            if(x > price) {
+                //need to change
+                int val = x - price;
+                //cout << " Receive " << x << " refound val = " << val << endl;
+                for(auto it = charges.rbegin(); val != 0 && it != charges.rend(); it++) {
+                    //20, can't paid 15(10+5)
+                    if(it->first > val) continue;
+                    if(it->second > 0) {
+                        int cash_out = min(it->second, val / it->first);
+                        //cout << "  -> [" << it->first << "] x " << cash_out << endl;
+                        it->second -= cash_out;
+                        val -= (it->first * cash_out);
+                    }
+                }
+                if(val != 0) return false;
+            } 
+            charges[x]++;
+        }
+        return true;
+    }
+};
+

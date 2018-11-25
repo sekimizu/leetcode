@@ -1,0 +1,70 @@
+class Solution {
+public:
+    int minIncrementForUnique(vector<int>& A) {
+        sort(A.begin(), A.end());
+        int cnt = 0, pre = -1;
+        
+        for(auto x : A) {
+            if(x < pre) {
+                cnt += (pre - x);
+            }
+            pre = max(x, pre) + 1;
+        }
+        return cnt;
+    }
+};
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+Following Time Limit Exceeded
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+class Solution {
+public:
+    int minIncrementForUnique(vector<int>& A) {
+        set<int> s;
+        int cnt = 0;
+        for(auto x : A) {
+            int pass_val = x;
+            while(s.count(pass_val) > 0) pass_val++;
+            cnt += pass_val - x;
+            s.insert(pass_val);
+            //cout << " x : " << x << " increase " << pass_val - x << " times..." << endl;
+        }
+        return cnt;
+    }
+};
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+class Solution {
+public:
+    bool exist(vector<int>& A, int target) {
+        for(int i = A.size() - 1; i >= 0; i--) {
+            if(A[i] == A[target] && i != target) return true;
+        }    
+        return false;
+    }
+    
+    int minIncrementForUnique(vector<int>& A) {
+        int cnt = 0;
+        for(int i = 0; i < A.size(); i++) {
+            while(exist(A, i)) {
+                //cout << " " << A[i] << " duplicate found..." << endl;
+                A[i] += 1;
+                cnt += 1;
+                //cout << " change value to " << A[i] << endl;
+            }
+        }
+        
+        /*
+        for(auto x : A) {
+            cout << "  " << x;
+        }
+        cout << endl;
+        */
+        return cnt;
+    }
+};
+

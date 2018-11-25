@@ -1,0 +1,46 @@
+#if 0
+
+[Detailed simple example to support explanation by @zshen9]
+
+[case 1] // target = 3
+1 + 2 = 3 => sum-target = 3-3 => 'residual' is 0: this step '2' is the answer.
+
+
+[case 2] // target = 2
+1+2 = 3 // sum-target = 3-2 => 'residual' is 1: gone over by odd number => Can do nothing.
+1+2+3 = 6 // sum-target = 6-2 => 'residual' is 4: gone over by even number => Flip 2 to add -4 (subtract 2*2)
+1-2+3 = 2 // => this step '3' is the answer
+
+
+[The following condition assures flipping only a number is sufficient.]
+
+#endif
+class Solution {
+public:
+    int reachNumber(int target) {
+        target = abs(target);
+        
+        int cur = 0, cnt = 0, step = 1;
+        
+        if(target == cur) return cnt;
+        
+        while(cur < target) {
+            cur += step;
+            //cout << " cur = " << cur << " step = " << step << endl;
+            step++;
+            cnt++;
+        }
+        
+        if(cur == target) return cnt;
+        
+        //enev could be reach by 0 -> -1 -> 1 -> 4
+        while((cur - target) % 2 == 1) {
+            cur += step;
+            //cout << " cur = " << cur << " step = " << step << endl;
+            step++;
+            cnt++;
+        }
+        return cnt;
+        
+    }
+};

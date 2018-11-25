@@ -1,0 +1,31 @@
+class Solution {
+public:
+    int bagOfTokensScore(vector<int>& tokens, int P) {
+        if(tokens.size() == 1) return (P >= tokens[0] ? 1 : 0);
+        sort(tokens.begin(), tokens.end());
+        bool noPower = false;
+        int points = 0, record = 0;
+        
+        int left = 0, right = tokens.size() - 1;
+
+        while((!noPower || points > 0) && left < right) {
+            //cout << " hang??" << endl;
+            while(P >= tokens[left]) {
+                points++;
+                P -= tokens[left];
+                left++;
+            }
+            //cout << " points == " << points << endl;
+            record = max(record, points);
+            if(points > 0) {
+                P += tokens[right];
+                points--;
+                right--;
+            }
+            if(P < tokens[left]) {
+                noPower = true;
+            }
+        }
+        return record;
+    }
+};
