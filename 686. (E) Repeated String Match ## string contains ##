@@ -1,0 +1,20 @@
+class Solution {
+public:
+    int repeatedStringMatch(string A, string B) {
+        if(B.size() == 0) return 0;
+        if(A.size() == 0) return -1;
+        
+        int loop_count = B.size() / A.size() + 1, cnt = 0;
+        string ac = A;
+        
+        for(; cnt < loop_count; cnt++) {
+            int index = A.find(B);
+            if(index != string::npos) {
+                return cnt + 1;
+            }
+            A += ac;
+        }
+        if(A.find(B) != string::npos) return cnt + 1;
+        return -1;
+    }
+};
