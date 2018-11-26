@@ -1,0 +1,81 @@
+
+Area = 1/2 ( x1 * (y2- y3) + x2 * (y3 - y1) + x3 * (y1 - y2) )
+
+
+class Solution {
+public:
+    double largestTriangleArea(vector<vector<int>>& points) {
+        double area = 0.0;
+
+        for(auto a : points) {
+            for(auto b : points) {
+                for(auto c : points) {
+                    area = max(area, 0.5 * (a[0] * (b[1] - c[1]) + b[0] * (c[1] - a[1]) + c[0] * (a[1] - b[1])));
+                }
+            }
+        }   
+        return area;
+    }
+};
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+It's too hard to implement this if don't know the Triangle Formulas
+
+
+class Solution {
+public:
+    
+    void helper(int &val, set<pair<int, int>> &vp, int x, int y, bool is_big, bool is_x) {
+        if(is_big ? (is_x ? x : y) > val : (is_x ? x : y) < val) {
+            vp.clear();
+            val = (is_x ? x : y);
+            vp.insert(make_pair(x, y));
+        } else if((is_x ? x : y) == val) {
+            vp.insert(make_pair(x, y));
+        } 
+    }
+    
+    double largestTriangleArea(vector<vector<int>>& points) {
+        int biggest_xv = INT_MIN, biggest_yv = INT_MIN, smallest_xv = INT_MAX, smallest_yv = INT_MAX;
+        set<pair<int, int>> biggest_x, smallest_x, biggest_y, smallest_y;
+        
+        for(auto x : points) {
+            helper(biggest_xv, biggest_x, x[0], x[1], true, true);
+            helper(smallest_xv, smallest_x, x[0], x[1], false, true);
+            helper(biggest_yv, biggest_y, x[0], x[1], true, false);
+            helper(smallest_yv, smallest_y, x[0], x[1], false, false);
+        }
+        
+        
+        cout << " = biggest_x = " << endl;
+        for(auto x : biggest_x) {
+            cout << " (" << x.first << "," << x.second << ") " << endl;
+            if(biggest_y.find(x) != biggest_y.end()) {
+                cout << " Found in biggest_y..." << endl;
+            } else if(smallest_y.find(x) != smallest_y.end()) {
+                cout << " Found in smallest_y..." << endl;
+            }
+        }
+        cout << " = smallest_x = " << endl;
+        for(auto x : smallest_x) {
+            cout << " (" << x.first << "," << x.second << ") " << endl;
+            if(biggest_y.find(x) != biggest_y.end()) {
+                cout << " Found in biggest_y..." << endl;
+            } else if(smallest_y.find(x) != smallest_y.end()) {
+                cout << " Found in smallest_y..." << endl;
+            }
+        }
+        cout << " = biggest_y = " << endl;
+        for(auto x : biggest_y) {
+            cout << " (" << x.first << "," << x.second << ") " << endl;
+        }
+        cout << " = smallest_y = " << endl;
+        for(auto x : smallest_y) {
+            cout << " (" << x.first << "," << x.second << ") " << endl;
+        }
+        
+        
+        return 0.0;
+    }
+};

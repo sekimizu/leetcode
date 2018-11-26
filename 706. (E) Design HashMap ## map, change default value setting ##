@@ -1,0 +1,65 @@
+struct defaultValue {
+    int value = -1;
+};
+
+class MyHashMap {
+public:
+    map<int, defaultValue> m;
+    
+    /** Initialize your data structure here. */
+    MyHashMap() {
+        m.clear();
+    }
+    
+    /** value will always be non-negative. */
+    void put(int key, int value) {
+        m[key].value = value;
+    }
+    
+    /** Returns the value to which the specified key is mapped, or -1 if this map contains no mapping for the key */
+    int get(int key) {
+        return m[key].value;
+    }
+    
+    /** Removes the mapping of the specified value key if this map contains a mapping for the key */
+    void remove(int key) {
+        m[key].value = -1;
+    }
+};
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+class MyHashMap {
+public:
+    map<int, int> m;
+    
+    /** Initialize your data structure here. */
+    MyHashMap() {
+        m.clear();
+    }
+    
+    /** value will always be non-negative. */
+    void put(int key, int value) {
+        m[key] = value;
+    }
+    
+    /** Returns the value to which the specified key is mapped, or -1 if this map contains no mapping for the key */
+    int get(int key) {
+        if(m.find(key) != m.end()) {
+            return m[key];
+        }
+        return -1;
+    }
+    
+    /** Removes the mapping of the specified value key if this map contains a mapping for the key */
+    void remove(int key) {
+        m[key] = -1;
+    }
+};
+
+/**
+ * Your MyHashMap object will be instantiated and called as such:
+ * MyHashMap obj = new MyHashMap();
+ * obj.put(key,value);
+ * int param_2 = obj.get(key);
+ * obj.remove(key);
+ */

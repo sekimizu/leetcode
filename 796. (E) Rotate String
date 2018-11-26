@@ -1,0 +1,29 @@
+class Solution {
+public:
+    bool rotateString(string A, string B) {
+        if(A.size() != B.size()) return false;
+        if(A.size() == 0) return true;
+        
+        int b_index = -1;
+        queue<int> rec;
+        for(int i = 0; i < B.size(); i++) {
+            if(B[i] == A[0]) rec.push(i);
+        }
+        if(rec.empty()) return false;
+        
+        b_index = rec.front();
+        rec.pop();
+        
+        for(int j = 0; j < A.size(); j++) {
+            if(A[j] != B[b_index]) {
+                if(rec.empty()) return false;
+                b_index = rec.front();
+                rec.pop();
+                j = 0;
+            }
+            b_index = (b_index + 1) % B.size();
+        }
+        return true;
+    }
+};
+
