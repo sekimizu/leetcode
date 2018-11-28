@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int countBinarySubstrings(string s) {
+        vector<int> b;
+        
+        char begin_char = s[0];
+        int word_cnt = 1;
+        int cnt = 0;
+        for(int i = 1; i < s.size(); i++) {
+            if(s[i] == begin_char) {
+                word_cnt++;
+            } else {
+                b.push_back(word_cnt);
+                begin_char = s[i];
+                word_cnt = 1;
+            }
+        }  
+        b.push_back(word_cnt);
+        
+        for(int j = 0; j < b.size() - 1; j++) {
+            cnt += min(b[j], b[j+1]);    
+        }
+        return cnt;
+    }
+};

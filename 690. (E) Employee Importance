@@ -1,0 +1,54 @@
+Recursive 
+@@@@@@@@@@@@@@@@@@@
+
+/*
+// Employee info
+class Employee {
+public:
+    // It's the unique ID of each node.
+    // unique id of this employee
+    int id;
+    // the importance value of this employee
+    int importance;
+    // the id of direct subordinates
+    vector<int> subordinates;
+};
+*/
+class Solution {
+public:
+    int getImportance(vector<Employee*> employees, int id) {
+        for(Employee* ppl : employees) {
+            if(ppl->id != id) continue;
+            if(ppl->subordinates.size() == 0) return ppl->importance;
+            int sum = 0;
+            for(auto x : ppl->subordinates) {
+                sum += getImportance(employees, x);
+            }
+            return ppl->importance + sum;
+        }
+        return 0;
+    }
+};
+
+@@@@@@@@@@@@@@@@@@@@@@@@
+DFS
+
+class Solution {
+public:
+    void helper(unordered_map<int, Employee*> mapping, int id, int &sum) {
+        sum += mapping[id]->importance;
+        for(auto x : mapping[id]->subordinates) {
+            helper(mapping, x, sum);
+        }
+    }
+    
+    int getImportance(vector<Employee*> employees, int id) {
+        int sum = 0;
+        unordered_map<int, Employee*> mapping;
+        for(auto x : employees) {
+            mapping[x->id] = x;
+        }
+        helper(mapping, id, sum);
+        return sum;
+    }
+};
