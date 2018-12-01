@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int maxDistToClosest(vector<int>& seats) {
+        bool meet = false;
+        int begin = 0, dis = 0, max_val = 0;
+        
+        for(int i = 0; i < seats.size(); i++) {
+            if(seats[i] == 1) {
+                meet = true;
+                if(dis != 0) {
+                    max_val = max(max_val, (dis - 1) / 2 + 1);
+                    dis = 0;
+                }
+            } else {
+                dis++;
+            }
+            if(!meet) begin++;
+        }
+        max_val = max(max_val, begin);
+        max_val = max(max_val, dis);
+//        cout << " begin = " << begin << " max_val = " << max_val << " dis = " << dis << endl;
+      
+        return max_val;
+    }
+};

@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int peakIndexInMountainArray(vector<int>& A) {
+        int left = 0;
+        while(left < A.size()-2 && A[left+1] > A[left]) left++;
+        return left;
+    }
+};
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+class Solution {
+public:
+    int peakIndexInMountainArray(vector<int>& A) {
+        if(A.size() < 3) return 0;
+        int left = 0, right = A.size()-1;
+        
+        while(left < A.size()-2 && A[left+1] > A[left]) left++;
+        while(right > 0 && A[right-1] > A[right]) right--;
+
+        return left;
+    }
+};
