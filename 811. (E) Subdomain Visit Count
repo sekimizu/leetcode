@@ -1,0 +1,79 @@
+class Solution {
+public:
+    vector<string> subdomainVisits(vector<string>& cpdomains) {
+        vector<string> res;
+        unordered_map<string, int> cp;
+        
+        for(string s : cpdomains) {
+            string x = "";
+            int tail = 0, val = 0;
+            while(s[tail] != ' ') {
+                x = x + s[tail];
+                tail++;
+            }
+            val = stoi(x);
+            x = "";
+            for(int i = s.size() - 1; i >= tail; i--) {
+                if(s[i] == '.' || s[i] == ' ') {
+                    //m[key].push(x);
+                    cp[x] += val;
+                }
+                x = s[i] + x;
+            }
+        }
+        for(auto x : cp) {
+            res.push_back(to_string(x.second) + " " + x.first);
+            //cout << " " << x.first << " , " << x.second << endl;
+        }
+        return res;
+        
+    }
+};
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+class Solution {
+public:
+    vector<string> subdomainVisits(vector<string>& cpdomains) {
+        vector<string> res;
+        int max_size = INT_MIN, k = 0;
+        unordered_map<int, stack<string>> m;
+        unordered_map<int, int> cp;
+        
+        for(string s : cpdomains) {
+            string x = "";
+            int tail = 0;
+            while(s[tail] != ' ') {
+                x = x + s[tail];
+                tail++;
+            }
+            cp[k] = stoi(x);
+            x = "";
+            for(int i = s.size() - 1; i >= tail; i--) {
+                if(s[i] == '.' || s[i] == ' ') {
+                    //m[key].push(x);
+                    m[k].push(x);
+                }
+                x = s[i] + x;
+            }
+            max_size = max(max_size, (int)m[k].size());
+            k++;
+        }
+        for(int cnt = max_size; cnt > 0; cnt--) {
+            unordered_map<string, int> tmp;
+            for(auto it = m.begin(); it != m.end(); it++) {
+                if(it->second.size() == cnt) {
+                    string URL = it->second.top();
+                    it->second.pop();
+                    tmp[URL] += cp[it->first];
+                }
+            }
+
+            for(auto x : tmp) {
+                res.push_back(to_string(x.second) + " " + x.first);
+            }
+        }
+        
+        return res;
+    }
+};

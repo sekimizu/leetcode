@@ -1,0 +1,46 @@
+class Solution {
+public:
+    bool isRectangleOverlap(vector<int>& rec1, vector<int>& rec2) {
+        int r1x1 = rec1[0], r1y1 = rec1[1], r1x2 = rec1[2], r1y2 = rec1[3];
+        int r2x1 = rec2[0], r2y1 = rec2[1], r2x2 = rec2[2], r2y2 = rec2[3];
+
+        /*
+        bool case1 = (x1 < x4 && x3 < x2 && y1 < y4 && y3 < y2); //top right intersection
+        bool case2 = (x3 < x2 && x1 < x4 && y1 < y4 && y3 < y2); //top left intersection
+        bool case3 = (x3 < x2 && x1 < x4 && y3 < y2 && y4 < y1); //bottom left intersection
+        bool case4 = (x1 < x4 && x3 < x2 && y3 < y2 && y4 < y1); //bottom right intersection
+        */
+        return (r1x1 < r2x2 && r2x1 < r1x2 && r1y1 < r2y2 && r2y1 < r1y2);
+    }
+};
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+class Solution {
+public:
+    bool isRectangleOverlap(vector<int>& rec1, vector<int>& rec2) {
+        if(rec1.size() != 4 || rec2.size() != 4) return false;
+        long x_len = 0, y_len = 0, r1x_len = 0, r1y_len = 0, r2x_len = 0, r2y_len = 0;
+        int r1x1 = rec1[0], r1y1 = rec1[1], r1x2 = rec1[2], r1y2 = rec1[3];
+        int r2x1 = rec2[0], r2y1 = rec2[1], r2x2 = rec2[2], r2y2 = rec2[3];
+
+        if(r2x2 > r1x2) {
+            x_len = r2x2 - r1x1;
+        } else {
+            x_len = r1x2 - r2x1;
+        }
+        if(r2y2 > r1y2) {
+            y_len = r2y2 - r1y1;
+        } else {
+            y_len = r1y2 - r2y1;
+        }
+        r1x_len = r1x2 - r1x1;
+        r1y_len = r1y2 - r1y1;
+        r2x_len = r2x2 - r2x1;
+        r2y_len = r2y2 - r2y1;
+
+        if(x_len < r1x_len + r2x_len && y_len < r1y_len + r2y_len) return true;
+        return false;
+    }
+};
+

@@ -1,0 +1,17 @@
+class Solution {
+public:
+    vector<int> numberOfLines(vector<int>& widths, string S) {
+        vector<int> res;
+        int row = 1, units = 100;
+        
+        for(char x : S) {
+            if(units - widths[x - 'a'] < 0) {
+                row++;
+                units = 100 - widths[x - 'a'];
+            } else {
+                units -= widths[x - 'a'];
+            }
+        }
+        return {row, 100 - units};
+    }
+};

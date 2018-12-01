@@ -1,0 +1,46 @@
+class Solution {
+public:
+    int numMagicSquaresInside(vector<vector<int>>& grid) {
+        if(grid.size() < 3 || grid[0].size() < 3) return 0;
+        int magic_cnt = 0;
+        for(int ver = 0; ver < grid.size() - 2; ver++) {
+            for(int hor = 0; hor < grid[0].size() - 2; hor++) {
+                set<int> checked;
+                vector<int> count(6, 15);
+                bool isMagic = true;
+                for(int x = 0; isMagic && x < 3; x++) {
+                    for(int y = 0; isMagic && y < 3; y++) {
+                        int current = grid[ver + x][hor + y];
+                        if(current < 1 || current > 9) {
+                            isMagic = false;
+                            continue;
+                        }
+                        count[x] -= current;
+                        count[3 + y] -= current;
+                        if(count[x] < 0 || count[3 + y] < 0) {
+                            isMagic = false;
+                            continue;
+                        }
+                        if(checked.count(current) > 0) {
+                            isMagic = false;
+                            continue;
+                        }
+                        checked.insert(current);
+                    }
+                }
+                if(isMagic) {
+                    int diagX = 15, diagY = 15;
+                    for(int n = 0; n < 3; n++) {
+                        diagX -= grid[ver + n][hor + n];
+                        diagY -= grid[ver + 2 - n][hor + n];
+                    }
+                    if(diagX != 0 || diagY != 0) isMagic = false;
+                }
+                if(isMagic) {
+                    magic_cnt++;
+                }
+            }
+        }
+        return magic_cnt;
+    }
+};
