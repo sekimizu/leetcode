@@ -1,0 +1,121 @@
+Time Limit Exceeded 
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+class Solution {
+    unordered_map<int, set<int>> factor_table;
+
+    int ft_len = 0, max_val = 0;
+    
+public:
+    void sieveOfEratosthenes(vector<int> &table, int n) {
+        table[0] = table[1] = 0;
+        for(int i = 2; i <= sqrt(n); i++) {
+            if(table[i] == 1) {
+                for(int j = 2; i * j <= n; j++) {
+                    table[i * j] = 0;
+                }
+            }
+        }
+    }
+    
+    void generateFactorTable(vector<int> &table, vector<int>& A) {
+        for(auto x : A) {
+            for(int i = 2; i < max_val + 1; i++) {
+                if(table[i] == 1 && x % i == 0) {
+                    #ifdef DEBUG
+                    cout << " push into " << i << " with " << x << endl;
+                    #endif
+                    factor_table[i].insert(x);
+                }
+            }
+        }
+        ft_len = factor_table.size();
+    }
+
+    bool find(int key, auto from) {
+        if(from->second.count(key) > 0) return true;
+        return false;
+    }
+    
+    void combine(auto from, auto to) {
+        for(auto x = from->second.begin(); x != from->second.end(); x++) {
+            to->second.insert(*x);
+            from->second.erase(x);
+        }
+        //DEBUG
+        #ifdef DEBUG
+        cout << " From set size = " << from->second.size() << endl;
+        cout << " Print destination set == > " << endl;
+        for(auto x = to->second.begin(); x != to->second.end(); x++) {
+            cout << " " << *x;
+        }
+        cout << endl << "..." << endl;
+        #endif
+    }
+    
+    int largestComponentSize(vector<int>& A) {
+        max_val = *max_element(A.begin(), A.end());
+        factor_table.clear();
+
+        int res = INT_MIN;
+        
+        unordered_map<int, set<int>> mapping;
+        
+        vector<int> table(max_val + 1, 1);
+        sieveOfEratosthenes(table, max_val);
+        generateFactorTable(table, A);
+        
+        bool hasSwap = true;
+        
+        while(hasSwap) {
+            hasSwap = false;
+            #ifdef DEBUG
+            cout << " Start >>>>>> " << endl;
+            #endif
+            for(auto to = factor_table.begin(); to != factor_table.end(); ) {
+                #ifdef DEBUG
+                cout << " Check = " << to->first << endl;
+                #endif
+//                if(to->second.size() == 0) continue;
+                
+                if(to->second.size() == 0) {
+                    auto tmp = to;
+                    #ifdef DEBUG
+                    cout << " Delete empty record >> " << tmp->first << endl;
+                    #endif
+                    to++;
+                    factor_table.erase(tmp);
+                    continue;
+                }
+                
+                for(auto x = to->second.begin(); x != to->second.end(); x++) {
+                    int val = *x;
+                    #ifdef DEBUG
+                    cout << " ( " << to->first << " ) find " << val << " in all set" << endl;
+                    #endif
+                    for(auto from = factor_table.begin(); from != factor_table.end(); from++) {
+                        if(from->first == to->first || from->second.size() == 0) continue;
+                        #ifdef DEBUG
+                        cout << "  --> ( " << from->first << " ) " << endl;
+                        #endif
+                        if(find(val, from)) {
+                            #ifdef DEBUG
+                            cout << " Find " << val << " in " << from->first << endl;
+                            #endif
+                            combine(from, to);
+                            hasSwap = true;
+                            int to_size =  to->second.size();
+                            #ifdef DEBUG
+                            cout << " To set size = " << to_size << endl;
+                            #endif
+                            res = max(res, to_size);
+                        }
+                    }          
+                }
+                to++;
+            }
+        }
+        return res;
+    }
+};

@@ -1,0 +1,41 @@
+class Solution {
+public:
+    int checkMatch(unordered_map<char, int> cnt, string word) {
+        int len = word.size();
+        
+        for(auto x : word) {
+            if(cnt[x] != 0) {
+                cnt[x]--;
+                len--;
+            }
+        }
+        
+        for(auto x : cnt) {
+            if(x.second != 0) return -1;
+        }
+        return len;
+    }
+    
+    string shortestCompletingWord(string licensePlate, vector<string>& words) {
+        unordered_map<char, int> cnt;
+        string res = "";
+        int min_val = INT_MAX;
+        
+        for(char x : licensePlate) {
+            if(isalpha(x)) {
+                cnt[tolower(x)]++;
+            }
+        }
+        
+        for(string x : words) {
+            int check = checkMatch(cnt, x);
+            if(check == -1) continue;
+            if(check < min_val) {
+                min_val = check;
+                res = x;
+            }
+        }
+        
+        return res;
+    }
+};

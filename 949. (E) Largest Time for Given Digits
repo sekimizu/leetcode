@@ -1,0 +1,54 @@
+class Solution {
+public:
+    bool couldGenMinute(vector<int>& A, int i, int j) {
+        for(int x = 0; x < A.size(); x++) {
+            if(x == i || x == j) continue;
+            if(A[x] <= 5) return true;
+        }
+        return false;
+    }
+    
+    string largestTimeFromDigits(vector<int>& A) {
+        if(A.size() < 4) return "";
+        vector<char> res(5,0);
+        
+        int h_max = 24, m_max = 60;
+        int h_cur_max = INT_MIN, m_cur_max = INT_MIN;
+        int record_i = 0, record_j = 0;
+        
+        for(int i = 0; i < A.size(); i++) {
+            for(int j = 0; j < A.size(); j++) {
+                if(i == j) continue;
+                
+                int x = A[i] * 10 + A[j];
+                if(x >= h_max) continue;
+                if(x > h_cur_max && couldGenMinute(A, i, j)) {
+                    h_cur_max = x;
+                    record_i = i;
+                    record_j = j;
+                }
+            }
+        }
+        //cout << " h_cur_max = " << h_cur_max << endl;
+        if(h_cur_max == INT_MIN) return "";
+        
+        A[record_i] = A[record_j] = -1;
+        
+        for(int i = 0; i < A.size(); i++) {
+            for(int j = 0; j < A.size(); j++) {
+                if(A[i] == -1 || A[j] == -1) continue;
+                if(i == j) continue;
+                
+                int x = A[i] * 10 + A[j];
+                if(x >= m_max) continue;
+                m_cur_max = max(m_cur_max, x);
+            }
+        }
+        //cout << " m_cur_max = " << m_cur_max << endl;
+        if(m_cur_max == INT_MIN) return "";
+        
+        string hour = (h_cur_max < 10 ? "0" + to_string(h_cur_max) : to_string(h_cur_max));
+        string minute = (m_cur_max < 10 ? "0" + to_string(m_cur_max) : to_string(m_cur_max));
+        return hour + ":" + minute;
+    }
+};

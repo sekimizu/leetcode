@@ -1,0 +1,26 @@
+class Solution {
+public:
+    void sieveOfEratosthenes(vector<int> &table, int n) {
+        table[0] = table[1] = 0;
+        for(int i = 2; i <= sqrt(n); i++) {
+            if(table[i] == 1) {
+                for(int j = 2; i * j <= n; j++) {
+                    table[i * j] = 0;
+                }
+            }
+        }
+    }
+    
+    int countPrimeSetBits(int L, int R) {
+        vector<int> prime_table(32, 1);
+        sieveOfEratosthenes(prime_table, 32);
+        
+        int cnt = 0;
+        for(int i = L; i <= R; i++) {
+            bitset<32> b(i);
+            int num = b.count();
+            cnt += prime_table[num];
+        }
+        return cnt;
+    }
+};

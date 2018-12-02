@@ -1,0 +1,24 @@
+class Solution {
+public:
+    bool checker(vector<vector<int>>& matrix, int val, int x, int y) {
+        if(x < 0 || y < 0 || x >= matrix.size() || y >= matrix[0].size()) {
+            return true;
+        }
+        return val == matrix[x][y];
+    }
+    
+    bool isToeplitzMatrix(vector<vector<int>>& matrix) {
+        int m = matrix.size(), n = matrix[0].size();
+        
+        for(int i = 0; i < m; i++) {
+            for(int j = 0; j < n; j++) {
+                bool left_top = checker(matrix, matrix[i][j], i - 1, j - 1);
+                bool bottom_right = checker(matrix, matrix[i][j], i + 1, j + 1);
+                
+                if(!left_top || !bottom_right) return false;
+            }
+        }
+        return true;
+    }
+};
+
