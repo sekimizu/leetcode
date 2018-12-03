@@ -1,0 +1,48 @@
+class Solution {
+public:
+    int minCostClimbingStairs(vector<int>& cost) {
+        int s0 = cost[0], s1 = cost[1];
+        for(int i = 2; i < cost.size(); i++) {
+            int tmp = min(s0, s1) + cost[i];
+            s0 = s1;
+            s1 = tmp;;
+        }
+        return min(s0, s1);
+    }
+};
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@  Time Limit Exceeded
+
+class Solution {
+public:
+    int helper(vector<int> &cost, int total_cost, int current) {
+        if(current >= cost.size()) return total_cost;
+        if(current >= cost.size() - 2) return total_cost + cost[current];
+        
+        return min(helper(cost, total_cost + cost[current], current + 1), helper(cost, total_cost + cost[current], current + 2));
+    }
+    
+    int minCostClimbingStairs(vector<int>& cost) {
+        return min(helper(cost, 0, 0), helper(cost, 0, 1));
+    }
+};
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+class Solution {
+public:
+    int minCostClimbingStairs(vector<int>& cost) {
+        vector<int> table(cost.size(), 0);
+        
+        table[0] = cost[0];
+        table[1] = cost[1];
+        
+        for(int i = 2; i < table.size(); i++) {
+            table[i] = min(table[i-2], table[i-1]) + cost[i];
+        }
+        return min(table[table.size() - 1], table[table.size() - 2]);
+    }
+};
+

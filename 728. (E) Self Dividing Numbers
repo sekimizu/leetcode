@@ -1,0 +1,18 @@
+class Solution {
+public:
+    vector<int> selfDividingNumbers(int left, int right) {
+        vector<int> res;
+        
+        for(int i = left; i <= right; i++) {
+            string num_str = to_string(i);
+            bool good = true;
+            for(auto x : num_str) {
+                int t = x - '0';
+                if(t == 0) good = false;
+                else if(i % t != 0) good = false;
+            }
+            if(good) res.push_back(i);
+        }
+        return res;
+    }
+};

@@ -1,0 +1,67 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool helper(TreeNode *root, TreeNode *min, TreeNode *max) {
+        if(!root) return true;
+        if((min && root->val <= min->val) || (max && root->val >= max->val)) return false;
+        return helper(root->left, min, root) && helper(root->right, root, max);
+    }
+    
+    bool isValidBST(TreeNode* root) {
+        return helper(root, NULL, NULL);
+    }
+};
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    pair<int, int> helper(TreeNode *root, bool &isValid) {
+        if(!root->left && !root->right) {
+            return make_pair(root->val, root->val);
+        }
+        pair<int, int> l = (root->left ? helper(root->left, isValid) : make_pair(0, 0));
+        pair<int, int> r = (root->right ? helper(root->right, isValid) : make_pair(0, 0));
+        #if 0
+        cout << " ---------------------- " << endl;
+        cout << " Left part, min = " << l.first << " max = " << l.second << endl;
+        cout << " Right part, min = " << r.first << " max = " << r.second << endl;
+        cout << " Current val = " << root->val << endl;
+        cout << " ---------------------- " << endl;
+        #endif
+        if(root->left && root->val <= l.second) {
+            isValid = false;
+        }
+        if(root->right && root->val >= r.first) {
+            isValid = false;   
+        }
+        
+        int x = (root->left ? l.first : root->val);
+        int y = (root->right ? r.second : root->val);
+
+        return make_pair(x, y);
+    }
+    
+    bool isValidBST(TreeNode* root) {
+        if(!root) return true;
+        bool isValid = true;
+        helper(root, isValid);
+        return isValid;
+    }
+};
