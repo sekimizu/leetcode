@@ -1,0 +1,62 @@
+class Solution {
+public:
+    vector<vector<int>> fourSum(vector<int>& nums, int target) {
+        int m = nums.size();
+        if(m < 4) return {};
+        sort(nums.begin(), nums.end());
+        vector<vector<int>> res;
+        
+        for(int i = 0; i < m - 3; i++) {
+            for(int j = i + 1; j < m - 2; j++) {
+                int left = j + 1, right = nums.size() - 1;
+                while(left < right) {
+                    if(nums[i] + nums[j] + nums[left] + nums[right] == target) {
+                        //cout << "Found..." << nums[i] << ", " << nums[j] << ", " << nums[left] << ", " << nums[right] << endl;
+                        //cout << " i = " << i << " j = " << j << " left = " << left << " right = " << right << endl;
+                        vector<int> tmp = {nums[i], nums[j], nums[left], nums[right]};
+                        if(find(res.begin(), res.end(), tmp) == res.end()) {
+                            res.push_back(tmp);    
+                        }
+                        left++; right--;
+                    }
+                    
+                    while(left <= right && nums[i] + nums[j] + nums[left] + nums[right] < target) left++;
+                    while(left <= right && nums[i] + nums[j] + nums[left] + nums[right] > target) right--;
+                }
+            }
+        }
+        return res;
+    }
+};
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+class Solution {
+public:
+    vector<vector<int>> fourSum(vector<int>& nums, int target) {
+        int m = nums.size();
+        if(m < 4) return {};
+        vector<vector<int>> res;
+        
+        for(int i = 0; i < m; i++) {
+            for(int j = i + 1; j < m; j++) {
+                for(int k = j + 1; k < m; k++) {
+                    for(int l = k + 1; l < m; l++) {
+                        if(nums[i] + nums[j] + nums[k] + nums[l] == target) {
+                            //cout << "Found..." << nums[i] << ", " << nums[j] << ", " << nums[k] << ", " << nums[l] << endl;
+                            //cout << " i = " << i << " j = " << j << " k = " << k << " l = " << l << endl;
+                            vector<int> tmp = {nums[i], nums[j], nums[k], nums[l]};
+                            sort(tmp.begin(), tmp.end());
+                            if(find(res.begin(), res.end(), tmp) == res.end()) {
+                                res.push_back(tmp);
+                            }
+                            
+                        }
+                    }
+                }
+            }
+        }
+        return res;
+    }
+};
+

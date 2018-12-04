@@ -1,0 +1,89 @@
+/*
+Backtracking 
+https://www.youtube.com/watch?v=78t_yHuGg-0
+*/
+class Solution {
+public:
+    void grayCodeHelper(bitset<32> &b, vector<int> &res, int n) {
+        //cout << " b = " << b << " n = " << n << endl;
+        if(n == 0) {
+            //cout << " Push b into res " << b << endl;
+            res.push_back(b.to_ulong());
+            return;
+        } else {
+            grayCodeHelper(b, res, n - 1);
+            b.flip(n - 1);
+            grayCodeHelper(b, res, n - 1);
+        }
+    }
+    
+    vector<int> grayCode(int n) {
+        bitset<32> b;
+        vector<int> res;
+        grayCodeHelper(b, res, n);
+        return res;
+    }
+};
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+class Solution {
+public:
+    vector<int> grayCode(int n) {
+        vector<int> res;
+        vector<vector<string>> base = {{ "0" }, { "0", "1" }, { "00", "01", "11", "10" }};
+        
+        if(n <= 2) {
+            for(string x : base[n]) {
+                res.push_back(stoi(x, nullptr, 2));
+            }
+            return res;
+        }
+        
+        vector<string> p;
+        if(n % 2 == 1) {
+            bool doR = false;
+            for(auto x : base[1]) {
+                if(doR) {
+                    for(auto it = base[2].rbegin(); it != base[2].rend(); it++) {
+                        p.push_back(x + *it);    
+                    }
+                } else {
+                    for(auto it = base[2].begin(); it != base[2].end(); it++) {
+                        p.push_back(x + *it);    
+                    }
+                }
+                doR = !doR;
+            }
+            n -= 3;
+        } else {
+            p = base[2];
+            n -= 2;
+        }
+        
+        while(n > 0) {
+            vector<string> tmp;
+            bool doR = false;
+            for(auto x : p) {
+                if(doR) {
+                    for(auto it = base[2].rbegin(); it != base[2].rend(); it++) {
+                        tmp.push_back(x + *it);    
+                    }
+                } else {
+                    for(auto it = base[2].begin(); it != base[2].end(); it++) {
+                        tmp.push_back(x + *it);    
+                    }
+                }
+                doR = !doR;
+            }
+            p = tmp;
+            n -= 2;
+        }
+        for(auto x : p) {
+            cout << "  " << stoi(x, nullptr, 2);
+            res.push_back(stoi(x, nullptr, 2));
+        }
+        cout << endl;
+        return res;
+    }
+};
