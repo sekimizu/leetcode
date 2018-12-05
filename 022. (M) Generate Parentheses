@@ -1,0 +1,68 @@
+class Solution {
+public:
+    void permute(vector<string> &res, string pattern, int lp, int rp) {
+        if(lp == 0 && rp == 0) {
+            res.push_back(pattern);
+            return;
+        }
+        if(lp > 0) permute(res, pattern + "(", lp - 1, rp + 1);
+        if(rp > 0) permute(res, pattern + ")", lp, rp - 1);
+    }
+    
+    vector<string> generateParenthesis(int n) {
+        // n = 3, we need at lease 3 "("
+        vector<string> res;
+        permute(res, "", n, 0);
+        return res;
+    }
+};
+
+@@@@@@@ Time Limit Exceeded
+
+class Solution {
+public:
+    bool checkValid(string pattern) {
+        int n = 0;
+        for(auto x : pattern) {
+            if(x == ')') n--;
+            else n++;
+            if(n == -2) return false;
+        }
+        return true;
+    }
+    
+    void permute(set<string> &res, int begin, string pattern) {
+        if(begin == pattern.size() - 1) {
+            if(checkValid(pattern)) {
+                res.insert("(" + pattern + ")");    
+            }
+        }
+        
+        for(int i = begin + 1; i < pattern.size(); i++) {
+            //choose
+            swap(pattern[begin], pattern[i]);
+            //explore
+            permute(res, begin + 1, pattern);
+            //un-choose
+            swap(pattern[begin], pattern[i]);
+        }
+    }
+    
+    vector<string> generateParenthesis(int n) {
+        if(n == 0) return {};
+        if(n == 1) return {"()"};
+        
+        vector<string> vs;
+        set<string> res;
+        string pattern = "";
+        for(int i = 0; i < n - 1; i++) {
+            pattern += "()";
+        }
+        res.insert("(" + pattern + ")");  
+        permute(res, 0, pattern);
+        for(auto it = res.begin(); it != res.end(); it++) {
+            vs.push_back(*it);
+        }
+        return vs;
+    }
+};

@@ -1,0 +1,57 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* reverseHelper(ListNode *head, int n) {
+        ListNode *pre = NULL, *cur = head, *next = NULL;
+        while(cur != NULL) {
+            //cout << " cur->val = " << cur->val << " n = " << n << endl;
+            next = cur->next;
+            
+            if(n == 1) {
+                free(cur);
+                if(next != NULL) {
+                    //free(cur);
+                    cur = next;
+                    next = cur->next;
+                    n = 0;    
+                } else {
+                    return pre;
+                }
+            } else if(n > 1) {
+                n--;    
+            }
+            cur->next = pre;
+            pre = cur;
+            cur = next;
+        }
+        return pre;
+    }
+    
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        if(!head) return head;
+        ListNode *cur = head;
+        
+        cur = reverseHelper(cur, 0);
+        /*
+        while(cur != NULL) {
+            cout << " " << cur->val << endl;
+            cur = cur->next;
+        }
+        */
+        cur = reverseHelper(cur, n);
+        /*
+        while(cur != NULL) {
+            cout << " " << cur->val << endl;
+            cur = cur->next;
+        }
+        */
+        return cur;
+    }
+};

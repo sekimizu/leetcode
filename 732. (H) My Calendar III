@@ -1,0 +1,29 @@
+/*
+https://leetcode.com/problems/my-calendar-iii/discuss/109556/JavaC++-Clean-Code
+*/
+class MyCalendarThree {
+    map<int, int> m;
+    
+public:
+    MyCalendarThree() {
+        m.clear();
+    }
+    
+    int book(int start, int end) {
+        m[start]++;
+        m[end]--;
+        
+        int max_val = 0, ongoing = 0;
+        for(auto x : m) {
+            ongoing += x.second;
+            max_val = max(max_val, ongoing);
+        }
+        return max_val;
+    }
+};
+
+/**
+ * Your MyCalendarThree object will be instantiated and called as such:
+ * MyCalendarThree obj = new MyCalendarThree();
+ * int param_1 = obj.book(start,end);
+ */

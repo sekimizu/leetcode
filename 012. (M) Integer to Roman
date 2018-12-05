@@ -1,0 +1,38 @@
+class Solution {
+public:
+    string intToRoman(int num) {
+        string roman = "";
+        vector<pair<int, string>> vp = {
+            {1, "I"}, {1, "I"}, {5, "V"}, {10, "X"}, {10, "X"}, {50, "L"}, {100, "C"}, {100, "C"}, {500, "D"}, {1000, "M"}
+        };
+        
+        pair<int, string> pre = vp[vp.size() - 1];
+        
+        while(num >= pre.first) {
+            roman += pre.second;
+            num -= pre.first;
+        }
+        
+        for(int i = vp.size() - 2; i >= 1; i--) {
+            pair<int, string> cur = vp[i];
+            pair<int, string> next = vp[i - 1];
+            
+            if(num >= cur.first) {
+                if(num >= pre.first - next.first) {
+                    roman += next.second;
+                    roman += pre.second;
+                    num -= (pre.first - next.first);
+                } else {
+                    int count = num / cur.first;
+                    for(int j = 0; j < count; j++) {
+                        roman += cur.second;
+                        num -= cur.first;
+                    }
+                }
+            }
+            pre = cur;
+        }
+        return roman;   
+    }
+};
+
