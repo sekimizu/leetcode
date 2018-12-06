@@ -1,0 +1,38 @@
+class Solution {
+public:
+    void nextPermutation(vector<int>& nums) {
+        map<int, int> record;
+        bool needSwap = true;
+        int i = nums.size() - 1;
+        
+        for(; i > 0 && needSwap; i--) {
+            if(nums[i - 1] >= nums[i]) {
+                record[nums[i]] = i;
+                continue;   
+            }
+            //cout << " stop at " << i << " because nums[i] = " << nums[i] << " nums[i - 1] = " << nums[i - 1] << endl; 
+            //find record to check if that any variable bigger than nums[i - 1]
+            for(auto x : record) {
+                if(needSwap && x.first > nums[i - 1]) {
+                    //cout << "   Found " << x.first << " bigger than " << nums[i - 1] << endl;
+                    //cout << " swap index " << x.second << "," << i - 1 << endl;
+                    swap(nums[x.second], nums[i - 1]);
+                    needSwap = false;
+                }
+            }
+            //all the record smaller than nums[i - 1], so swap nums[i - 1] and nums[i]
+            if(needSwap) {
+                //cout << " Not found, just do the swap, nums[i] = " << nums[i] << " nums[i - 1] = " << nums[i - 1] << endl; 
+                swap(nums[i], nums[i - 1]);
+                needSwap = false;
+            }
+        }
+        //sort it from i
+        /*
+        1,2,4,3,3,3,3,1 ==> 1,3,4,2,3,3,3,1 with i = 2
+        sort from begin+2 to end => 1,3 ||| 1,2,3,3,3,4
+        */
+        //cout << " srot start from " << i + (needSwap ? 0 : 1) << endl;
+        sort(nums.begin() + i + (needSwap ? 0 : 1), nums.end());
+    }
+};

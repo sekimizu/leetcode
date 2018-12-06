@@ -1,0 +1,85 @@
+class Solution {
+public:
+    void permute(vector<vector<int>> &res, int begin, vector<int> &nums) {
+        if(begin == nums.size() - 1) {
+        //if(begin >= nums.size()) {
+            res.push_back(nums);
+            return;
+        }
+        
+        unordered_set<int> s;
+        for(int i = begin; i < nums.size(); i++) {
+            //duplicate check
+            if(s.count(nums[i]) > 0) continue;
+            s.insert(nums[i]);
+            
+            //choose
+            swap(nums[begin], nums[i]);
+            //explore
+            permute(res, begin + 1, nums);
+            //un=choose
+            swap(nums[begin], nums[i]);
+        }
+    }
+    
+    vector<vector<int>> permuteUnique(vector<int>& nums) {
+        vector<vector<int>> res;
+        permute(res, 0, nums);
+        #if 0
+        for(auto x : res) {
+            cout << " --> " << endl;
+            for(auto y : x)
+                cout << " " << y;
+            cout << endl;
+        }
+        #endif
+        return res;
+    }
+};
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+class Solution {
+public:
+    void permute(set<vector<int>> &res, int begin, vector<int> &nums) {
+        if(begin == nums.size() - 1) {
+        //if(begin >= nums.size()) {
+            res.insert(nums);
+            return;
+        }
+        
+        for(int i = begin; i < nums.size(); i++) {
+            //choose
+            swap(nums[begin], nums[i]);
+            //explore
+            permute(res, begin + 1, nums);
+            //un=choose
+            swap(nums[begin], nums[i]);
+        }
+    }
+    
+    vector<vector<int>> permuteUnique(vector<int>& nums) {
+        set<vector<int>> res;
+        vector<vector<int>> vi;
+        
+        //res.insert(nums);
+        permute(res, 0, nums);
+        for(auto it = res.begin(); it != res.end(); it++) {
+            vi.push_back(*it);
+        }
+        //sort(res.begin(), res.end());
+        //cout << " Before >> res size = " << res.size();
+        //auto x = unique(res.begin(), res.end());
+        //res.resize(distance(res.begin(), x));
+        //cout << " After >> res size = " << res.size();
+        #if 0
+        for(auto x : res) {
+            cout << " --> " << endl;
+            for(auto y : x)
+                cout << " " << y;
+            cout << endl;
+        }
+        #endif
+        return vi;
+    }
+};
