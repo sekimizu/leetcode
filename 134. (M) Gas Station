@@ -1,0 +1,15 @@
+class Solution {
+public:
+    int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
+        int m = gas.size();
+        for(int i = 0; i < m; i ++) {
+            int j, tank = 0;
+            for(j = i; j < i + m && tank >= 0; j++) {
+                tank += (gas[j % m] - cost[j % m]);
+                if(tank < 0) break;
+            }
+            if(j  == i + m) return i;
+        }
+        return -1;
+    }
+};

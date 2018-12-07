@@ -1,0 +1,15 @@
+class Solution {
+public:
+    int flipgame(vector<int>& fronts, vector<int>& backs) {
+        int m = fronts.size(), good = INT_MAX;
+        unordered_map<int, bool> s;
+        for(int i = 0; i < m; i++) {
+            if(fronts[i] == backs[i]) s[fronts[i]] = true;
+        }
+        for(int j = 0; j < m; j++) {
+            if(!s[fronts[j]]) good = min(good, fronts[j]);
+            if(!s[backs[j]]) good = min(good, backs[j]);
+        }
+        return good == INT_MAX ? 0 : good;
+    }
+};

@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int maxProfitAssignment(vector<int>& difficulty, vector<int>& profit, vector<int>& worker) {
+        int m = difficulty.size(), total_profit = 0;
+        map<int, int> cnt = { {0, 0} };
+        for(int i = 0; i < m; i++) {
+            cnt[difficulty[i]] = max(cnt[difficulty[i]], profit[i]);
+        }
+        int max_val = 0;
+        for(auto &x : cnt) {
+            max_val = max(max_val, x.second);
+            x.second = max_val;
+        }
+        for(const int x : worker) {
+            auto it = prev(cnt.upper_bound(x));
+            //cout << " diff " << it->first << " profit " << it->second << endl;
+            total_profit += it->second;
+        }
+        return total_profit;
+    }
+};
