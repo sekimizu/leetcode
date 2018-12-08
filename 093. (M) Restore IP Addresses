@@ -1,0 +1,33 @@
+class Solution {
+public:
+    void helper(unordered_set<string> &res, string s, string chosen, int l, int cnt) {
+        if(s.size() > l * 3) {
+            return;
+        }
+        if(s.size() == 0) {
+            if(cnt != 4) return;
+            res.insert(chosen);
+            return;
+        }
+        
+        for(int i = 1; i <= 3; i++) {
+            if(i == 3 && s[0] > '2') continue;
+            if(s[0] == '0' && i != 1) continue;
+            string ip = s.substr(0, i);     
+            if(stol(ip) > 255) continue;
+            s.erase(0, i);
+            helper(res, s, (chosen.size() != 0 ? chosen + "." + ip : ip), l - 1, cnt + 1);
+            s.insert(0, ip);
+        }
+    }
+    
+    vector<string> restoreIpAddresses(string s) {
+        unordered_set<string> res;
+        vector<string> r;
+        helper(res, s, "", 4, 0);
+        for(auto x : res) {
+            r.push_back(x);
+        }
+        return r;
+    }
+};

@@ -1,0 +1,28 @@
+class Solution {
+public:
+    bool isValidSudoku(vector<vector<char>>& board) {
+        int m = 9;
+        int row[9][9] = { 0 };
+        int col[9][9] = { 0 };
+        int block[9][9] = { 0 };
+
+        for(int i = 0; i < m; i++) {
+            for(int j = 0; j < m; j++) {
+                if(board[i][j] <= '9' && board[i][j] >= '0') {
+                    int index = board[i][j] - '0' - 1;
+                    //cout << " index = " << index << endl;
+                    int id = (i / 3) * 3 + (j / 3);
+                    //cout << " block id = " << id << endl;
+                    if(col[j][index] == 1 || row[i][index] == 1 || block[id][index] == 1) {
+                        return false;
+                    } else {
+                        col[j][index] = 1;
+                        row[i][index] = 1;
+                        block[id][index] = 1;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+};
