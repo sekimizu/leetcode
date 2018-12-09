@@ -1,0 +1,40 @@
+class Solution {
+public:
+    bool isAlienSorted(vector<string>& words, string order) {
+        map<string, string> m;
+        unordered_map<char, char> toalpha;
+        
+        char alpha = 'a';
+        for(char x : order) {
+            toalpha[x] = alpha;
+            alpha++;
+        }
+        
+        for(string x : words) {
+            string key = "";
+            for(int i = 0; i < x.size(); i++) {
+                int index = 0;
+                while(index <= order.size() && order[index] != x[i]) index++;
+                
+                if(index >= order.size()) {
+                    return false;
+                }
+                //key = key + to_string(index);
+                key += toalpha[x[i]];
+            }
+            //cout << " transfor " << x << " into key " << key << endl;
+            m[key] = x;
+        }
+        
+        int id = 0;
+        for(auto x : m) {
+            //cout << " x.second = " << x.second << " words = " << words[id] << endl;
+            if(words[id] == x.second) {
+                id++;
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
+};

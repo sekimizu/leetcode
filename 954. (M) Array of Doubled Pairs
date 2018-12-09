@@ -1,0 +1,25 @@
+class Solution {
+public:
+    bool canReorderDoubled(vector<int>& A) {
+	//use map to record all value and it's count with ordered
+	//[1,2,4,16,8,8] -> 16 x 1, 8 x 2, 4 x 1, 2 x 1, 1 x 1
+        map<double, int> cnt;
+        
+        for(auto x : A) {
+            cnt[x]++;
+        }
+        
+	// current value is 16, find 16/2 = 8, and reduce it's count by 16's second
+	// 8 : 2 -> 1
+        for(auto it = cnt.rbegin(); it != cnt.rend(); it++) {
+            //cout << " first = " << it->first << " , second = " << it->second << endl;
+            if(it->second == 0) continue;
+            double to_find = (it->first < 0 ? it->first * 2 : it->first / 2);
+            if(cnt.count(to_find) == 0 || cnt[to_find] < it->second) {
+                return false;
+            }
+            cnt[to_find] -= it->second;
+        }       
+        return true;
+    }
+};
