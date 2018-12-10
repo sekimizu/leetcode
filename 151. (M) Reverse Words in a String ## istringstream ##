@@ -1,0 +1,13 @@
+class Solution {
+public:
+    void reverseWords(string &s) {
+        string res = "";
+        istringstream in(s);
+        for(string word; in >> word;) {
+            //cout << "word = " << word << endl;
+            res = (res.size() == 0 ? "" : " ") + res;
+            res = word + res;
+        }
+        s = res;
+    }
+};
