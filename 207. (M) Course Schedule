@@ -1,0 +1,63 @@
+class Solution {
+public:
+    
+    bool canFinish(int numCourses, vector<pair<int, int>>& prerequisites) {
+        unordered_map<int, vector<int>> um;
+        vector<int> indegree(numCourses, 0);
+        queue<int> check;
+        int dist = 0;
+        
+        for(auto x : prerequisites) {
+            um[x.second].push_back(x.first);
+            indegree[x.first]++;
+        }
+        for(int i = 0; i < numCourses; i++) {
+            if(indegree[i] == 0) check.push(i);
+        }
+        
+        while(!check.empty()) {
+            auto cour_id = check.front(); check.pop();
+            dist++;
+            vector<int> cour_list = um[cour_id];
+            
+            for(int next_cour : cour_list) {
+                indegree[next_cour]--;
+                if(indegree[next_cour] == 0) {
+                    check.push(next_cour);    
+                }
+            }
+        }
+        return dist == numCourses;
+    }
+};
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+@@@@@@@@@ Time Limit Exceeded
+
+class Solution {
+public:
+    
+    bool canFinish(int numCourses, vector<pair<int, int>>& prerequisites) {
+        queue<pair<int, int>> q;
+        
+        for(auto x : prerequisites) {
+            q.push(x);
+        }
+        while(!q.empty()) {
+            pair<int, int> course = q.front(); q.pop();
+            //cout << " check " << course.first << " -> " << course.second << endl;
+            for(auto x : prerequisites) {
+                if(course.second == x.first) {
+                    if(course.first == x.second) {
+                        //deadlock
+                        return false;    
+                    }
+                    q.push(make_pair(course.first, x.second));
+                }
+            }
+        }
+        return true;
+    }
+};
+

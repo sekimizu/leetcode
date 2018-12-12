@@ -1,0 +1,24 @@
+class Solution {
+public:
+    void sortColors(vector<int>& nums) {
+        if(nums.size() <= 1) return;
+        int two_cnt = 0, left = 0, right = nums.size() - 1;
+        
+        while(right >= left) {
+            if(nums[right] == 0) {
+                while(nums[left] == 0 && left < right) left++;
+                if(nums[left] == 2) two_cnt++;
+                nums[left] = 0;
+            } else if(nums[right] == 2) {
+                two_cnt++;
+            }
+            if(left < right) nums[right] = 2;
+            right--;
+        }
+        if(nums[left] == 0) left++;
+        //cout << " left = " << left << " two_cnt = " << two_cnt << endl;
+        for(int i = left; i < nums.size() - two_cnt; i++) {
+            nums[i] = 1;
+        }
+    }
+};
