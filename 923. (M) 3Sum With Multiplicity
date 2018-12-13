@@ -1,0 +1,50 @@
+class Solution {
+public:
+    //Cnk = n!/(n-k)!*k!
+    int threeSumMulti(vector<int>& A, int target) {
+        if(A.size() == 0) return 0;
+        sort(A.begin(), A.end());
+        
+        unordered_map<int, int> m;
+        set<vector<int>> rec;
+        
+        for(auto x : A) {
+            m[x]++;
+        }
+        for(int i = 0; i < A.size() - 2; i++) {
+            int left = i + 1, right = A.size() - 1;
+            
+            while(left < right) {
+                int sum = A[i] + A[left] + A[right];
+                if(sum == target) {
+                    //cout << " Match : A[" << i << "], A[" << left << "], A[" << right << "]" << endl;
+                    //cout << " Match : " << A[i] << ", " << A[left] << ", " << A[right] << endl;
+                    rec.insert({A[i], A[left], A[right]});
+                    left++;
+                    right--;
+                } else if(sum > target) {
+                    right--;
+                } else {
+                    left++;
+                }
+            }
+        }
+        long sum = 0;
+        for(auto x : rec) {
+            //cout << " " << x[0] << " " << x[1] << " " << x[2] << endl;
+            long v0 = m[x[0]], v1 = m[x[1]], v2 = m[x[2]];
+            
+            if(x[0] == x[1] && x[1] == x[2]) { // a = b = c
+                sum += v0 * (v0 - 1) * (v0 - 2) / 6;
+            } else if(x[0] == x[1]) { // a = b
+                sum += v0 * (v0 - 1) / 2 * v2;
+            } else if(x[1] == x[2]) { // b = c
+                sum += v0 * v1 * (v1 - 1) / 2;
+            } else { // a != b != c
+                sum += v0 * v1 * v2;
+            }
+            //cout << " sum = " << sum << endl;
+        }
+        return sum % (int)(1e9 + 7);
+    }
+};

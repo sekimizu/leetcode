@@ -1,0 +1,24 @@
+class Solution {
+public:
+    vector<int> singleNumber(vector<int>& nums) {
+        set<int> record;
+        int flag = 0;
+        for(auto x : nums) {
+            flag ^= x;
+        }
+        //cout << " flag = " << flag << endl;
+        
+        int lastBit = (flag & (flag - 1)) ^ flag;
+        //cout << " last bit = " << lastBit << endl;
+        int num1 = 0, num2 = 0;
+        
+        for(auto x : nums) {
+            if(x & lastBit) {
+                num1 ^= x;
+            } else {
+                num2 ^= x;
+            }
+        }
+        return {num1, num2};
+    }
+};
