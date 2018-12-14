@@ -3,6 +3,39 @@ public:
     //Cnk = n!/(n-k)!*k!
     int threeSumMulti(vector<int>& A, int target) {
         if(A.size() == 0) return 0;
+        unordered_map<int, long> m;
+        long sum = 0;
+        
+        for(auto x : A) m[x]++;
+        
+        for(auto it1 : m) {
+            for(auto it2 : m) {
+                int a = it1.first, b = it2.first, c = target - a - b;
+                if(m.count(c) == 0) continue;
+                if(a > b || b > c) continue;
+                
+                if(a == b && b == c) {
+                    sum += it1.second * (it1.second - 1) * (it1.second - 2) / 6;            
+                } else if(a == b && b != c) {
+                    sum += it1.second * (it1.second - 1) / 2 * m[c];
+                } else if(a != b && b == c) {
+                    sum += it1.second * it2.second * (it2.second - 1) / 2;
+                } else {
+                    sum += it1.second * it2.second * m[c];
+                }
+            }
+        }
+        return sum % (int)(1e9 + 7);
+    }
+};
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+class Solution {
+public:
+    //Cnk = n!/(n-k)!*k!
+    int threeSumMulti(vector<int>& A, int target) {
+        if(A.size() == 0) return 0;
         sort(A.begin(), A.end());
         
         unordered_map<int, int> m;

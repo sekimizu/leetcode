@@ -1,0 +1,38 @@
+class Solution {
+public:
+    int minimumTotal(vector<vector<int>>& triangle) {
+        int row = triangle.size();
+        
+        if(row == 1) return triangle[0][0];
+        
+        vector<int> dp = triangle[row - 1];
+        
+        for(int i = row - 2; i >= 0; i--) {
+            for(int j = 0; j < triangle[i].size(); j++) {
+                dp[j] = triangle[i][j] + min(dp[j], dp[j + 1]);
+                //cout << " " << dp[j];
+            }
+        }
+        return dp[0];
+    }
+};
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+### Time Limit Exceeded
+
+class Solution {
+public:
+    int helper(vector<vector<int>>& triangle, int row, int index) {
+        if(row == triangle.size() - 1) {
+            return triangle[row][index];
+        } else {
+            return min(triangle[row][index] + helper(triangle, row + 1, index), triangle[row][index] + helper(triangle, row + 1, index + 1));
+        }
+    }
+    
+    int minimumTotal(vector<vector<int>>& triangle) {
+        return helper(triangle, 0, 0);
+    }
+};
