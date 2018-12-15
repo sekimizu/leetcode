@@ -1,0 +1,64 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    int doRob(TreeNode* root, int &lm, int &rm) {
+        if(!root) return 0;
+        
+        int lm1 = 0, lm2 = 0, rm1 = 0, rm2 = 0;
+        
+        lm = doRob(root->left, lm1, lm2);
+        rm = doRob(root->right, rm1, rm2);
+        
+        return max(root->val + lm1 + lm2 + rm1 + rm2, lm + rm);
+    }
+    
+    int rob(TreeNode* root) {
+        int lm = 0, rm = 0;
+        return doRob(root, lm, rm);
+        //return max(helper(root, false, 0), helper(root, true, root->val));
+    }
+};
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    int helper(TreeNode* root, bool preRob) {
+        if(!root) return 0;
+
+        if(!root->left && !root->right) {
+            if(preRob) return 0;
+            else return root->val;
+        }
+        
+        if(preRob) {
+            return helper(root->left, false) + helper(root->right, false);
+        } else {
+            int doRob = root->val + helper(root->left, true) + helper(root->right, true);
+            int doNotRob = helper(root->left, false) + helper(root->right, false);
+            return max(doRob, doNotRob);
+        }
+    }
+    
+    int rob(TreeNode* root) {
+        return helper(root, false);
+        //return max(helper(root, false, 0), helper(root, true, root->val));
+    }
+};

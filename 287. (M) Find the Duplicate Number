@@ -1,0 +1,23 @@
+/*
+http://keithschwarz.com/interesting/code/?dir=find-duplicate
+*/
+class Solution {
+public:
+    int findDuplicate(vector<int>& nums) {
+        int slower = 0, faster = 0, finder = 0;
+        
+        while(1) {
+            slower = nums[slower];
+            faster = nums[nums[faster]];
+            
+            if(slower == faster) break;
+        }
+        
+        while(1) {
+            slower = nums[slower];
+            finder = nums[finder];
+            
+            if(slower == finder) return finder;
+        }
+    }
+};

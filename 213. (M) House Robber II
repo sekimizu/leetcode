@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int robber(vector<int>& nums, int start, int end) {
+        int pre = 0, cur = 0;
+        for (int i = start; i <= end; i++) {
+            int temp = max(pre + nums[i], cur);
+            pre = cur;
+            cur = temp;
+        }
+        return cur;
+    }
+    
+    int rob(vector<int>& nums) {
+        int m = nums.size();
+        if(m == 0) return 0;
+        if(m == 1) return nums[0];
+        if(m == 2) return max(nums[0], nums[1]);
+
+        //rob 0 : 0 ~ m - 2, not rob 0 : 1 ~ m - 1
+        return max(robber(nums, 0, m - 2), robber(nums, 1, m - 1));
+    }
+};
