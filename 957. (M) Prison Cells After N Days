@@ -1,0 +1,37 @@
+class Solution {
+public:
+    vector<int> prisonAfterNDays(vector<int>& cells, int N) {
+        set<vector<int>> s;
+        
+        int loop = N;// % 15;
+        while(loop >= 15) loop -= 14;
+        
+        for(int i = 0; i < loop; i++) {
+            vector<int> newCell(cells.size(), 0);
+            
+            for(int j = 1; j < cells.size() - 1; j++) {
+                int neighbors = cells[j - 1] + cells[j + 1];
+                if(neighbors == 1) continue;
+                newCell[j] = 1;
+            }
+            #if 0
+            if(s.count(newCell) > 0) {
+                cout << " Repeat found ... i = " << i << endl;
+                for(auto x : newCell) {
+                    cout << " " << x;
+                }
+                cout << endl;
+            } else {
+                cout << " i = " << i << endl;
+                for(auto x : newCell) {
+                    cout << " " << x;
+                }
+                cout << endl;
+                s.insert(newCell);
+            }
+            #endif
+            cells = newCell;
+        }
+        return cells;
+    }
+};
