@@ -1,0 +1,74 @@
+class Solution {
+public:
+    int totalFruit(vector<int>& tree) {
+        //[size less than 2, take it all]
+        if(tree.size() <= 2) return tree.size();
+        
+        //[fruit type, fruit count]
+        unordered_map<int, int> cnt;
+        
+        //[max_len : maximum length, i : left index]
+        int max_len = 0, i = 0;
+        for(int j = 0; j < tree.size(); j++) {
+            cnt[tree[j]]++;
+            
+            if(cnt.size() > 2) {
+                //fruit type more than 2, remove from left index
+                cnt[tree[i]]--;
+                if(cnt[tree[i]] == 0) cnt.erase(tree[i]);
+                i++;
+            }
+            max_len = max(max_len, j - i + 1);
+        }
+        
+        return max_len;
+    }
+};
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+class Solution {
+public:
+    int totalFruit(vector<int>& tree) {
+        //[size less than 2, take it all]
+        if(tree.size() <= 2) return tree.size();
+        
+        //[record the maximum distance]
+        int max_len = 1;
+        for(int i = 0; i < tree.size(); i++) {
+            //[j : left bound, k : right bound]
+            int j = i, k = i;
+            //[use set to record two different value]
+            set<int> rec;
+            //[insert current node into set, record 0]
+            rec.insert(tree[k]);
+            
+            //[move right flag]
+            while(k < tree.size() - 1) {
+                if(tree[k] != tree[k + 1]) {
+                    //[meet different value, insert into set as record 1]
+                    if(rec.size() < 2) rec.insert(tree[k + 1]);
+                    //[new value, but set is full. abort at k]
+                    else if(rec.count(tree[k + 1]) == 0) break;
+                }
+                k++;
+            }
+            //[move i to current k position, because j(old k) to k(new k) are already been checked]
+            i = k;
+            //[move right bound till meet the value not exist in set]
+            while(j > 0) {
+                if(tree[j] != tree[j - 1]) {
+                    //[meet different value, insert into set as record 1]
+                    if(rec.size() < 2) rec.insert(tree[j - 1]);
+                    //[new value, but set is full. abort at j]
+                    else if(rec.count(tree[j - 1]) == 0) break;
+                }
+                j--;
+            }
+            //cout << " j = " << j << " k = " << k << endl;
+            //[update maximum distance, length]
+            max_len = max(max_len, k - j + 1);
+        }
+        return max_len;
+    }
+};
